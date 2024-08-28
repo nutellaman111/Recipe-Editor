@@ -1,0 +1,265 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 800px;
+    background-color: #ffffff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.header-controls {
+    width: 50%;
+    max-width: 800px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+.header-controls {
+    position: fixed;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #ffffff;
+    border-radius: 25px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Ensure it stays above other content */
+}
+
+.header-controls > * {
+    margin-right: 10px; /* Space between elements */
+}
+
+#editor {
+    width: 100%;
+
+    font-size: 16px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    outline: none;
+    background-color: #fff;
+    white-space: pre-wrap; /* Preserve whitespace for proper block separation */
+}
+
+/* Styling for the block */
+.block {
+    display: inline-flex; /* Ensure block fits content */
+    align-items: center;
+    background-color: #fff;
+    padding: 4px 4px; /* Reduced padding */
+    border-radius: 4px;
+    margin: 3px 0px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-size: 16px; /* Ensure text fits well */
+}
+
+/* Styling for the number input */
+.block .number {
+    field-sizing: content;
+    min-width: 10px; /* Optional: maximum width */
+    padding: 4px; /* Reduced padding */
+    border: none;
+    border-radius: 4px;
+    margin-right: 4px; /* Reduced margin */
+    background-color: #e7e7e7; /* Background color for distinction */
+    font-size: 16px; /* Ensure text fits well */
+    text-align: center;
+}
+.block .number:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #007bff;
+}
+
+/* Styling for the select menus */
+.block select {
+    field-sizing: content;
+    padding: 4px; /* Reduced padding */
+    border: none;
+    border-radius: 4px;
+    margin-right: 4px; /* Reduced margin */
+    background-color:#e7e7e7; /* Background color for consistency */
+    font-size: 16px; /* Ensure text fits well */
+    appearance: none; /* Remove default arrow */
+    -webkit-appearance: none; /* Remove default arrow in WebKit browsers */
+}
+
+/* Remove border from select menus on focus */
+.block select:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #007bff;
+}
+
+.autocomplete {
+    
+    position: relative;
+    display: inline-flex; /* Ensure block fits content */
+
+  }
+  
+  .inputField { /* Changed from #inputField to .inputField */
+    field-sizing: content;
+    padding: 4px; /* Reduced padding */
+    border: none;
+    border-radius: 4px;
+    margin-right: 4px; /* Reduced margin */
+    background-color:#e7e7e7; /* Background color for consistency */
+    font-size: 16px; /* Ensure text fits well */
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 16px;
+    border-radius: 4px;
+  }
+
+  .inputField:focus{
+    outline: none;
+    box-shadow: 0 0 0 2px #007bff;
+  }
+  
+  .suggestions {
+    position: absolute;
+    top: 100%;
+    max-height: 300px;
+    left: 0;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    z-index: 1000;
+    display: none;
+    box-sizing: border-box;
+    border-radius: 0 0 4px 4px;
+    overflow-y: scroll;
+    field-sizing: content;
+
+  }
+  
+  .suggestions div {
+    padding: 8px;
+    cursor: pointer;
+    overflow: visible;
+    white-space: nowrap;
+
+
+  }
+  
+  .suggestions div:hover {
+    background-color: #f0f0f0;
+  }
+  
+  
+
+/* Styling for the button */
+button {
+    display: block;
+    padding: 14px 26px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    outline: none;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Mobile app style toggle switch */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+/* Styling for the number input next to the button */
+.number-input {
+    field-sizing: content;
+    min-width: 5px;
+    padding: 5px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+.number-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #007bff;
+}
+
+.number-input::-webkit-inner-spin-button,
+.number-input::-webkit-outer-spin-button {
+    -webkit-appearance: none; /* Remove spinner in WebKit browsers */
+    margin: 0;
+}
+
+.number::-webkit-inner-spin-button,
+.number::-webkit-outer-spin-button {
+    -webkit-appearance: none; /* Remove spinner in WebKit browsers */
+    margin: 0;
+}

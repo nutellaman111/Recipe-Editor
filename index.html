@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Editor with Dynamic Blocks</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
+    
+</head>
+<body>
+    <div class="header-controls">
+        <label class="toggle-switch">
+            <input type="checkbox" id="toggleSwitch">
+            <span class="slider"></span>
+        </label>
+        <button id="addBlockButton">Add Block</button>
+        <div>
+            <span class="number-input-x">x</span>
+            <input type="number" id="numberInput" class="number-input" value="1">
+        </div>
+    </div>
+    <div class="container">
+
+        <div id="editor" contenteditable="true" class="editor-content">This is an editable te
+            
+            
+            
+            
+            
+            
+            xt.</div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
