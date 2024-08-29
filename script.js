@@ -1,8 +1,8 @@
 //DATA--------------------------------------------------------------
-const units = [ //ratio = how many times bigger it is than the 'basic unit' of the same type
+const ingredientUnits = [ //ratio = how many times bigger it is than the 'basic unit' of the same type
     { name: 'grams', type: 'weight', ratio: 1 }, //basic unit of type weight
     { name: 'milliliters', type: 'volume', ratio: 1 }, //basic unit of type volume
-    { name: 'units', type: 'countable', ratio: 1 }, //basic unit of type countable (things u can count like 1 egg)
+    { name: 'x', type: 'countable', ratio: 1 }, //basic unit of type countable (things u can count like 1 egg)
     { name: 'kilograms', type: 'weight', ratio: 1000 },
     { name: 'liters', type: 'volume', ratio: 1000 },
     { name: 'ounces', type: 'weight', ratio: 28.3495 },
@@ -11,10 +11,10 @@ const units = [ //ratio = how many times bigger it is than the 'basic unit' of t
     { name: 'teaspoons', type: 'volume', ratio: 0.202884 },
     { name: 'tablespoons', type: 'volume', ratio: 0.067628 }
 ];
-const materials = [ //ratios = how many of basic units of type X is in 1 ml
+const materials = [ //ratios = how many of basic units of type X is in 1 ml. for weight its equal to density (gr/ml)
+    //(a material can have volume undefined if it cant be converted to ml)
     { name: 'water', ratios: {volume: 1, weight: 1} },
-    { name: 'mashed bananas', ratios: {volume: 1, weight: 1.27, countable: 0.01074113856} }, //a banana is 118 gram or 93.1ml when mashed, so 1ml contains ~0.01 mashed banana 
-    { name: 'large eggs', ratios: { volume: 1, weight: 1.033 } },
+    { name: 'large eggs', ratios: { volume: 1, weight: 1.075, countable: 1/45} }, //an egg is 45 ml
     { name: 'all purpose flour', ratios: { volume: 1, weight: 0.53 } },
     { name: 'milk', ratios: { volume: 1, weight: 1.04 } },
     { name: 'brown sugar', ratios: { volume: 1, weight: 0.93 } },
@@ -23,12 +23,12 @@ const materials = [ //ratios = how many of basic units of type X is in 1 ml
     { name: 'butter', ratios: { volume: 1, weight: 0.91 } }
 ];
 // Array to store block data
-const blocksData = [];
+const allBlocks = [];
 
 //CONTROLS----------------------------------------------------------
 
-//mainting ratios toggle
-let maintain = false;
+//maintain ratios
+let maintain = false; 
 
 const toggleSwitch = document.getElementById('toggleSwitch');
 
@@ -46,21 +46,15 @@ multiplierInput.addEventListener('change', function() {
 })
 function ChangeMultiplier(newValue)
 {
-    //console.log("multiplier changed4");
-
     multiplier = newValue;
-    //console.log("multiplier changed7");
+    multiplierInput.value = NumberToString(multiplier);
 
-    multiplierInput.value = newValue;
-
-    //console.log("multiplier changed2");
-
-    blocksData.forEach(block => {
+    allBlocks.forEach(block => {
         UpdateIngredientBlockData(block, 'multiplier');
     });
 }
 
-//ingredient button
+//ingredient block button
 const addBlockButton = document.getElementById('addBlockButton');
 addBlockButton.addEventListener('click', () => {
     InsertBlock(NewIngredientBlock());
@@ -74,9 +68,9 @@ const editor = document.getElementById('editor');
 function NewIngredientBlock()
 {
     // Create the new block
-    const newBlock = document.createElement('div');
-    newBlock.className = 'block';
-    newBlock.setAttribute('contenteditable', 'false'); // Prevent typing inside the block
+    const block = document.createElement('div');
+    block.className = 'block';
+    block.setAttribute('contenteditable', 'false'); // Prevent typing inside the block
 
     // Create the number input
     const numberInput = document.createElement('input');
@@ -91,38 +85,20 @@ function NewIngredientBlock()
 
     // Create the unit select menu
     //const unitSelect = createAutocompleteField("choose", ["Apple", "Banana", "Orange", "Grapes", "Pineapple"]);/*document.createElement('select');
-    const unitSelect = createAutocompleteField("unit", units.map(unit => unit.name), true);
-    /*const unitSelect = document.createElement('select');
-    unitSelect.className = 'unit';
-        units.forEach(unit => {
-        const option = document.createElement('option');
-        option.value = unit.name;
-        option.textContent = unit.name;
-        unitSelect.appendChild(option);
-    });*/
+    const unitSelect = createAutocompleteField("unit", ingredientUnits.map(unit => unit.name), true);
 
     // Create the material select menu
     const materialSelect = createAutocompleteField("ingredient", materials.map(material => material.name), false);
-    /*const materialSelect = document.createElement('select');
-    materialSelect.className = 'material';
-    materials.forEach(material => {
-        const option = document.createElement('option');
-        option.value = material.name;
-        option.textContent = material.name;
-        materialSelect.appendChild(option);
-    });*/
     
-    newBlock.appendChild(numberInput);
-    newBlock.appendChild(unitSelect);
-    newBlock.appendChild(materialSelect);
+    block.appendChild(numberInput);
+    block.appendChild(unitSelect);
+    block.appendChild(materialSelect);
 
-    // Store block data
-    const newBlockData = {
-        blockElement: newBlock,
-        number: numberInput,
-        unit: unitSelect.inputField,
-        material: materialSelect.inputField,
-    };
+    block.number = numberInput; //number input field - sometimes is rounded
+    block.exactNumber = numberInput.value; //exact number, not always displayed accurately
+    block.unit = unitSelect.inputField; //unit input field
+    block.material = materialSelect.inputField; //material input field
+    block.unitLastValue = block.unit.value;
     
     numberInput.addEventListener('change', (event) => {
         console.log("number changed");
@@ -133,41 +109,42 @@ function NewIngredientBlock()
         console.log("value of input field is" + unitSelect.inputField.value);
         IngredientBlockInteracted(event.target.parentElement.parentElement, 'unit');
     });
+    unitSelect.inputField.addEventListener('value-set', (event) => {
+        console.log("unit changed!");
+        console.log("value of input field is" + unitSelect.inputField.value);
+        IngredientBlockInteracted(event.target.parentElement.parentElement, 'unit');
+    });
     materialSelect.inputField.addEventListener('value-set', (event) => {
         console.log("!value of input field is" + materialSelect.inputField.value);
         console.log("mterial changed!");
         IngredientBlockInteracted(event.target.parentElement.parentElement, 'material');
     });
+    unitSelect.inputField.addEventListener('options-update', (event) => {
+        IngredientBlockInteracted(event.target.parentElement.parentElement, 'optionsUpdate');
+    });
+    UpdateIngredientBlockData(block, 'number');
 
-    UpdateIngredientBlockData(newBlockData, 'number');
-
-    return newBlockData;
+    return block;
     
 }
-
-
-
-function IngredientBlockInteracted(blockElement, type){
-    const blockIndex = blocksData.findIndex(block => block.blockElement === blockElement);
-    if (blockIndex !== -1) {
-        const block = blocksData[blockIndex];
-        UpdateIngredientBlockData(block, type);
-    }
+function IngredientBlockInteracted(block, type){
+    UpdateIngredientBlockData(block, type);
 }
-// Function to update block data in blocksData array
 function UpdateIngredientBlockData(block, change) {
     // Find the parent block element
 
     console.log(`${block.number.value} ${block.unit.value} ${block.material.value}`);
     if (change === 'unit') {
         //console.log(block.amount);
+        block.unitLastValue = block.unit.value;
         if(maintain)
         {
-            block.number.value = CalculateIngredientBlockNumberString(block)
+            block.exactNumber = CalculateIngredientBlockNumber(block)
+            block.number.value = NumberToString(block.exactNumber);
         }
         else
         {
-            block.amount = CalculateIngredientBlockAmount(block);
+            block.amount = CalculateIngredientBlockAmount(block); //how many grams when multiplier = 1
         }
 
     } else if (change === 'number') {
@@ -176,32 +153,49 @@ function UpdateIngredientBlockData(block, change) {
         {
             block.number.value = 1;
         }
+        block.exactNumber = block.number.value;
+        block.number.value = NumberToString(block.exactNumber);
 
         if(maintain && block.amount != null)
         {           
-            var newAmount = ToGrams(block.unit.value, block.number.value,block.material.value);
+            var newAmount = ToGrams(block.unit.value, block.exactNumber, block.material.value);
             var newMultiplier = newAmount/block.amount;
-            //console.log(`new multupokuer is ${newMultiplier}`)
             ChangeMultiplier(newMultiplier);
         }
         else
         {
             block.amount = CalculateIngredientBlockAmount(block);
-            //console.log(`amount = ${block.amount}`)
         }
 
     } else if (change === 'material') {
-        block.amount = ToGrams(block.unit.value, block.number.value,block.material.value)/multiplier;
+        block.amount = CalculateIngredientBlockAmount(block);
         
     } else if (change === 'multiplier') {
         if(maintain)
         {
-            block.number.value = CalculateIngredientBlockNumberString(block)
+            block.exactNumber = CalculateIngredientBlockNumber(block);
+            block.number.value = NumberToString(block.exactNumber);
         }
         else
         {
-            block.amount = ToGrams(block.unit.value, block.number.value,block.material.value)/multiplier;
+            block.amount = CalculateIngredientBlockAmount(block);
         }
+    } else if (change === 'optionsUpdate') {
+
+        const thisUnitType = ingredientUnits.find(u => u.name === block.unitLastValue).type;
+        const unitAutoComplete = block.unit.parentElement;
+
+        console.log("last unit value = " + block.unitLastValue);
+
+        const thisMaterial = materials.find(u => u.name === block.material.value);
+
+        //console.log("this material = " + thisMaterial.name);
+
+        unitAutoComplete.suggestionsList = ingredientUnits
+        .filter(
+            currentUnit => !maintain || (thisUnitType == currentUnit.type) ||
+            (((thisMaterial != null) && (thisMaterial.ratios[thisUnitType] != null) && (thisMaterial.ratios[currentUnit.type] != null)))
+        ).map(x=> x.name);
     }
 
     console.log("amount is " + block.amount);
@@ -209,18 +203,21 @@ function UpdateIngredientBlockData(block, change) {
 }
 function CalculateIngredientBlockAmount(block)
 {
-    return ToGrams(block.unit.value, block.number.value,block.material.value)/multiplier;;
+    return ToGrams(block.unit.value, block.exactNumber ,block.material.value)/multiplier;;
 }
-function CalculateIngredientBlockNumberString(block)
+function CalculateIngredientBlockNumber(block)
 {
-    const number = FromGrams(block.unit.value, block.amount, block.material.value)*multiplier;
-    const string = number.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 4 }).replace(/,/g, '');
-    console.log(`calculated number is ` + number + ` pretty: ` + string);
-    return string;
+    return FromGrams(block.unit.value, block.amount, block.material.value)*multiplier;
 }
 
-//SHARED USAGE-----------------------------------------
-function InsertBlock(newBlockData) {
+//MISC SHARED USAGE-----------------------------------------
+
+function NumberToString(number)
+{
+    return ((Math.ceil(number * 100))/100).toString().replace(/,/g, '')
+}
+
+function InsertBlock(newBlock) {
     // Check if the cursor is inside the editor
     const selection = window.getSelection();
     if (!selection.rangeCount) {
@@ -234,35 +231,21 @@ function InsertBlock(newBlockData) {
         return;
     }
 
-    const newBlock = newBlockData.blockElement;
-
-    // Delete the selected content
+    // replace text selection with the new block
     range.deleteContents();
-
-    // Insert the block at the cursor position with spaces before and after
-    //const spaceBefore = document.createTextNode(' '); // Space before the block
-    //const spaceAfter = document.createTextNode(' ');  // Space after the block
-
-    // Insert space before the block
-    //range.insertNode(spaceBefore);
-    //range.setStartAfter(spaceBefore); // Move range to right after the space
-
-    // Insert the block
     range.insertNode(newBlock);
 
-    // Insert space after the block
-    range.setStartAfter(newBlock); // Move range to right after the block
-    //range.insertNode(spaceAfter);
+    //set cursor after block
+    range.setStartAfter(newBlock); 
+    range.collapse(true); 
+    selection.removeAllRanges(); 
+    selection.addRange(range); 
 
-    // Move cursor to after the space
-    //range.setStartAfter(spaceAfter); // Place cursor after the space
-    range.collapse(true); // Collapse the range to the start point
-    selection.removeAllRanges(); // Clear any existing selections
-    selection.addRange(range); // Add the new range to the selection
-
-    blocksData.push(newBlockData);
-    console.log(blocksData.length)
+    allBlocks.push(newBlock);
+    console.log(allBlocks.length)
 }
+
+//AUTO COMPLETE FIELDS--------------------------------------------------
 
 function createAutocompleteField(placeholderText, suggestionsList, forceDefault) {
     // Create the autocomplete container
@@ -287,7 +270,7 @@ function createAutocompleteField(placeholderText, suggestionsList, forceDefault)
     autocomplete.suggestionsContainer = suggestionsContainer;
     autocomplete.inputField = inputField;
 
-    autocomplete.nearestOption = suggestionsList[0];
+    autocomplete.nearestOption = autocomplete.suggestionsList[0];
     if(autocomplete.forceDefault)
     {
         inputField.value = autocomplete.nearestOption;
@@ -301,43 +284,14 @@ function createAutocompleteField(placeholderText, suggestionsList, forceDefault)
     // Add the same JavaScript logic to handle suggestions
     inputField.addEventListener('input', handleInputSuggestions);
 
-    showOptions = function()
-    {
-        const inputValue = this.value.toLowerCase();
-        suggestionsContainer.innerHTML = '';
-        let filteredSuggestions = 0;
-        if(inputValue)
-        {
-            filteredSuggestions = suggestionsList.filter(suggestion =>
-                suggestion.toLowerCase().includes(inputValue)
-            )
-        }else
-        {
-            filteredSuggestions = suggestionsList;             
-        }
-
-        filteredSuggestions.forEach(suggestion => {
-            const suggestionDiv = document.createElement('div');
-            suggestionDiv.textContent = suggestion;
-            suggestionDiv.addEventListener('click', function() {
-                inputField.value = suggestion;
-                suggestionsContainer.innerHTML = '';
-                suggestionsContainer.style.display = 'none';
-            });
-            suggestionsContainer.appendChild(suggestionDiv);
-        });
-        suggestionsContainer.style.display = filteredSuggestions.length ? 'block' : 'none';
-        autocomplete.nearestOption = filteredSuggestions.length ? filteredSuggestions[0] : suggestionsList[0];
-    }
-
     inputField.addEventListener('blur', function() {
         setTimeout(() => {
             suggestionsContainer.style.display = 'none';
-            if(forceDefault && !suggestionsList.includes(inputField.value))
+            if(forceDefault && !autocomplete.suggestionsList.includes(inputField.value))
             {
                 inputField.value = autocomplete.nearestOption;
             }
-            autocomplete.nearestOption = suggestionsList[0];
+            autocomplete.nearestOption = autocomplete.suggestionsList[0];
             inputField.dispatchEvent(new CustomEvent('value-set', event));
 
         }, 100);  // Delay to allow click event to register
@@ -346,8 +300,10 @@ function createAutocompleteField(placeholderText, suggestionsList, forceDefault)
     console.log("fart " + autocomplete.inputField.value);
     return autocomplete;
 }
-// Function to handle input and suggestions
 function handleInputSuggestions() {
+
+    this.dispatchEvent(new CustomEvent('options-update', event));
+
     const inputField = this;
     const parent = inputField.parentElement;
     const suggestionsContainer = parent.suggestionsContainer;
@@ -388,35 +344,32 @@ function handleInputSuggestions() {
     autocomplete.nearestOption = orderedSuggestions.length ? orderedSuggestions[0] : '';
 }
 
-
-
-
-//CONVERSIONS---------------------------------------------
+//MATERIAL UNIT CONVERSIONS---------------------------------------------
 
 function ToGrams(unitName, amount, materialName)
 {
     console.log("to grams called");
-    const unit = units.find(u => u.name === unitName);
+    const unit = ingredientUnits.find(u => u.name === unitName);
     const fromType = unit.type;
     return BasicUnitToBasicUnitOfType(fromType, "weight", ToBasicUnitOfSameType(unitName, amount), materialName);
 }
 
 function FromGrams(unitName, amount, materialName)
 {
-    const unit = units.find(u => u.name === unitName);
+    const unit = ingredientUnits.find(u => u.name === unitName);
     const toType = unit.type;
     return ToComplexUnitOfSameType(unitName, BasicUnitToBasicUnitOfType("weight", toType, amount, materialName ));
 }
 
 function ToBasicUnitOfSameType(unitName, amount)
 {
-    const unit = units.find(u => u.name === unitName);
+    const unit = ingredientUnits.find(u => u.name === unitName);
     return amount*unit.ratio;
 }
 
 function ToComplexUnitOfSameType(unitName, amount)
 {
-    const unit = units.find(u => u.name === unitName);
+    const unit = ingredientUnits.find(u => u.name === unitName);
     return amount/unit.ratio;
 }
 
