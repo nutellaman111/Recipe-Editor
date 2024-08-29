@@ -396,6 +396,11 @@ function InsertBlock(newBlock) {
         return;
     }
 
+    /*if(document.activeElement !== editor)
+    {
+        return;
+    }*/
+
     // replace text selection with the new block
     range.deleteContents();
     range.insertNode(newBlock);
