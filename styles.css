@@ -177,7 +177,7 @@ h1 {
 /* Styling for the button */
 button {
     display: block;
-    padding: 14px 26px;
+    padding: 14px 6px;
     font-size: 16px;
     cursor: pointer;
     border: none;
@@ -185,6 +185,8 @@ button {
     background-color: #007bff;
     color: white;
     outline: none;
+    flex-grow: 1;
+
 }
 
 button:hover {

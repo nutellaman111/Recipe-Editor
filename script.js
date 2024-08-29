@@ -3,14 +3,26 @@ const ingredientUnits = [ //ratio = how many times bigger it is than the 'basic 
     { name: 'grams', type: 'weight', ratio: 1 }, //basic unit of type weight
     { name: 'milliliters', type: 'volume', ratio: 1 }, //basic unit of type volume
     { name: 'x', type: 'countable', ratio: 1 }, //basic unit of type countable (things u can count like 1 egg)
-    { name: 'kilograms', type: 'weight', ratio: 1000 },
-    { name: 'liters', type: 'volume', ratio: 1000 },
-    { name: 'ounces', type: 'weight', ratio: 28.3495 },
-    { name: 'pints', type: 'volume', ratio: 473.176 },
     { name: 'cups', type: 'volume', ratio: 236.588 },
     { name: 'teaspoons', type: 'volume', ratio: 0.202884 },
-    { name: 'tablespoons', type: 'volume', ratio: 0.067628 }
+    { name: 'tablespoons', type: 'volume', ratio: 0.067628 },
+    { name: 'ounces', type: 'weight', ratio: 28.3495 },
+    { name: 'pints', type: 'volume', ratio: 473.176 },
+    { name: 'fluid ounces', type: 'volume', ratio: 29.5735 }, // US fluid ounce
+    { name: 'pounds', type: 'weight', ratio: 453.592 },
+    { name: 'kilograms', type: 'weight', ratio: 1000 },
+    { name: 'liters', type: 'volume', ratio: 1000 },
+    { name: 'quarts', type: 'volume', ratio: 946.353 }, // US quart
+    { name: 'gallons', type: 'volume', ratio: 3785.41 }, // US gallon
+    { name: 'milligrams', type: 'weight', ratio: 0.001 },
+    { name: 'carats', type: 'weight', ratio: 0.2 }
 ];
+const lengthUnits = [
+    { name: "centimeter", ratio: 1 },
+    { name: "inch", ratio: 2.54 },
+    { name: "millimeter", ratio: 0.1 },
+];
+
 const materials = [ //ratios = how many of basic units of type X is in 1 ml. for weight its equal to density (gr/ml)
     //(a material can have volume undefined if it cant be converted to ml)
     { name: 'water', ratios: {volume: 1, weight: 1} },
@@ -55,14 +67,180 @@ function ChangeMultiplier(newValue)
 }
 
 //ingredient block button
-const addBlockButton = document.getElementById('addBlockButton');
-addBlockButton.addEventListener('click', () => {
+const addIngredientBlockButton = document.getElementById('addIngredientBlock');
+addIngredientBlockButton.addEventListener('click', () => {
     InsertBlock(NewIngredientBlock());
+});
+
+//temp block button
+const addTempBlockButton = document.getElementById('addTempBlock');
+addTempBlockButton.addEventListener('click', () => {
+    InsertBlock(NewTempBlock());
+});
+
+//temp block button
+const addPanBlockButton = document.getElementById('addPanBlock');
+addPanBlockButton.addEventListener('click', () => {
+    InsertBlock(NewPanBlock());
 });
 
 
 //EDITOR-------------------------------------------------------------
 const editor = document.getElementById('editor');
+
+
+//PAN BLOCK----------------------------------------------------------
+function NewPanBlock()
+{
+    // Create the new block
+    const block = document.createElement('div');
+    block.className = 'block';
+    block.setAttribute('contenteditable', 'false'); // Prevent typing inside the block
+
+    // Create the number input
+    const widthInput = NumberInputField();
+    widthInput.value = 1;
+    const heightInput = NumberInputField();
+    heightInput.value = 1;
+    const diamaterInput = NumberInputField();
+    diamaterInput.value = 1;
+
+    const unitSelect = createAutocompleteField("unit", lengthUnits.map(x=>x.name), true);
+    const shapeSelect = createAutocompleteField("shape", ["round", "square"], true);
+    const containerSelect = createAutocompleteField("container", false);
+    containerSelect.inputField.value = "pan";
+
+    const textForSquare = document.createElement('span');
+    textForSquare.appendChild(document.createTextNode("x "));
+    textForSquare.style.display = 'none';
+    widthInput.style.display = 'none';
+    heightInput.style.display = 'none';
+
+    block.appendChild(widthInput);
+    block.appendChild(textForSquare);
+    block.appendChild(diamaterInput);
+    block.appendChild(unitSelect);
+    block.appendChild(shapeSelect);
+    block.appendChild(containerSelect);
+
+    block.widthInput = widthInput;
+    block.heightInput = heightInput;
+    block.textForSquare = textForSquare;
+    block.diamaterInput = diamaterInput;
+    block.unit = unitSelect;
+    block.shape = shapeSelect;
+
+    block.number = numberInput; //number input field - sometimes is rounded
+    block.unit = unitSelect.inputField; //unit input field
+    
+    widthInput.addEventListener('change', (event) => {
+        UpdatePanBlockData(event.target.parentElement, 'width/height');
+    });
+    heightInput.addEventListener('change', (event) => {
+        UpdatePanBlockData(event.target.parentElement, 'width/height');
+    });    
+    diamaterInput.addEventListener('change', (event) => {
+        UpdatePanBlockData(event.target.parentElement, 'diamater');
+    }); 
+
+    unitSelect.inputField.addEventListener('value-set', (event) => {
+        UpdateTempBlockData(event.target.parentElement.parentElement, 'unit');
+    })
+    UpdateTempBlockData(block, 'number');
+
+    return block;  
+}
+
+function UpdatePanBlockData(block, change) {
+    // Find the parent block element
+
+    if (change === 'unit') {
+        //console.log(block.amount);
+        if(maintain)
+        {
+            block.exactNumber = TemperatureConvert("ºC", block.unit.value, block.amount);
+            block.number.value = NumberToString(block.exactNumber);
+        }
+        else
+        {
+            block.amount = TemperatureConvert(block.unit.value, "ºC", block.exactNumber);
+        }
+
+    } else if (change === 'number') {
+
+        block.exactNumber = block.number.value;
+        block.number.value = NumberToString(block.exactNumber);
+
+        block.amount = TemperatureConvert(block.unit.value, "ºC", block.exactNumber);
+    }
+
+    console.log("amount is " + block.amount);
+
+}
+
+//TEMP BLOCK--------------------------------------------------------------
+function NewTempBlock()
+{
+    // Create the new block
+    const block = document.createElement('div');
+    block.className = 'block';
+    block.setAttribute('contenteditable', 'false'); // Prevent typing inside the block
+
+    // Create the number input
+    const numberInput = NumberInputField()
+    numberInput.value = '180'; // Default value
+
+    // Create the unit select menu
+    //const unitSelect = createAutocompleteField("choose", ["Apple", "Banana", "Orange", "Grapes", "Pineapple"]);/*document.createElement('select');
+    const unitSelect = createAutocompleteField("unit", ["ºC", "ºF"], true);
+
+    block.appendChild(numberInput);
+    block.appendChild(unitSelect);
+
+    block.number = numberInput; //number input field - sometimes is rounded
+    block.unit = unitSelect.inputField; //unit input field
+    
+    numberInput.addEventListener('change', (event) => {
+        console.log("number changed");
+        UpdateTempBlockData(event.target.parentElement, 'number');
+    });    
+    unitSelect.inputField.addEventListener('value-set', (event) => {
+        console.log("unit changed!");
+        console.log("value of input field is" + unitSelect.inputField.value);
+        UpdateTempBlockData(event.target.parentElement.parentElement, 'unit');
+    });
+    UpdateTempBlockData(block, 'number');
+
+    return block;  
+}
+
+function UpdateTempBlockData(block, change) {
+    // Find the parent block element
+
+    if (change === 'unit') {
+        //console.log(block.amount);
+        if(maintain)
+        {
+            block.exactNumber = TemperatureConvert("ºC", block.unit.value, block.amount);
+            block.number.value = NumberToString(block.exactNumber);
+        }
+        else
+        {
+            block.amount = TemperatureConvert(block.unit.value, "ºC", block.exactNumber);
+        }
+
+    } else if (change === 'number') {
+
+        block.exactNumber = block.number.value;
+        block.number.value = NumberToString(block.exactNumber);
+
+        block.amount = TemperatureConvert(block.unit.value, "ºC", block.exactNumber);
+    }
+
+    console.log("amount is " + block.amount);
+
+}
+
 
 //INGREDIENT BLOCK--------------------------------------------------------------
 function NewIngredientBlock()
@@ -73,15 +251,8 @@ function NewIngredientBlock()
     block.setAttribute('contenteditable', 'false'); // Prevent typing inside the block
 
     // Create the number input
-    const numberInput = document.createElement('input');
-    numberInput.type = 'number';
-    numberInput.className = 'number';
+    const numberInput = NumberInputField();
     numberInput.value = '1'; // Default value
-
-    // Apply styles to remove arrows
-    numberInput.style.webkitAppearance = 'none'; // Remove spinner in WebKit-based browsers
-    numberInput.style.mozAppearance = 'textfield'; // Remove spinner in Firefox
-    numberInput.style.appearance = 'textfield'; // Remove spinner in modern browsers
 
     // Create the unit select menu
     //const unitSelect = createAutocompleteField("choose", ["Apple", "Banana", "Orange", "Grapes", "Pineapple"]);/*document.createElement('select');
@@ -99,37 +270,31 @@ function NewIngredientBlock()
     block.unit = unitSelect.inputField; //unit input field
     block.material = materialSelect.inputField; //material input field
     block.unitLastValue = block.unit.value;
+
+    UpdateIngredientBlockData(block, 'number');
+
     
     numberInput.addEventListener('change', (event) => {
         console.log("number changed");
-        IngredientBlockInteracted(event.target.parentElement, 'number');
+        UpdateIngredientBlockData(event.target.parentElement, 'number');
     });    
     unitSelect.inputField.addEventListener('value-set', (event) => {
         console.log("unit changed!");
         console.log("value of input field is" + unitSelect.inputField.value);
-        IngredientBlockInteracted(event.target.parentElement.parentElement, 'unit');
-    });
-    unitSelect.inputField.addEventListener('value-set', (event) => {
-        console.log("unit changed!");
-        console.log("value of input field is" + unitSelect.inputField.value);
-        IngredientBlockInteracted(event.target.parentElement.parentElement, 'unit');
+        UpdateIngredientBlockData(event.target.parentElement.parentElement, 'unit');
     });
     materialSelect.inputField.addEventListener('value-set', (event) => {
         console.log("!value of input field is" + materialSelect.inputField.value);
         console.log("mterial changed!");
-        IngredientBlockInteracted(event.target.parentElement.parentElement, 'material');
+        UpdateIngredientBlockData(event.target.parentElement.parentElement, 'material');
     });
     unitSelect.inputField.addEventListener('options-update', (event) => {
-        IngredientBlockInteracted(event.target.parentElement.parentElement, 'optionsUpdate');
+        UpdateIngredientBlockData(event.target.parentElement.parentElement, 'optionsUpdate');
     });
-    UpdateIngredientBlockData(block, 'number');
 
-    return block;
-    
+    return block;  
 }
-function IngredientBlockInteracted(block, type){
-    UpdateIngredientBlockData(block, type);
-}
+
 function UpdateIngredientBlockData(block, change) {
     // Find the parent block element
 
@@ -245,6 +410,15 @@ function InsertBlock(newBlock) {
     console.log(allBlocks.length)
 }
 
+function NumberInputField()
+{
+    // Create the number input
+    const numberInput = document.createElement('input');
+    numberInput.type = 'number';
+    numberInput.className = 'number';
+
+    return numberInput;
+}
 //AUTO COMPLETE FIELDS--------------------------------------------------
 
 function createAutocompleteField(placeholderText, suggestionsList, forceDefault) {
@@ -343,6 +517,48 @@ function handleInputSuggestions() {
     suggestionsContainer.style.display = orderedSuggestions.length ? 'block' : 'none';
     autocomplete.nearestOption = orderedSuggestions.length ? orderedSuggestions[0] : '';
 }
+
+
+// LENGTH AREA CONVERSIONS ----------------------------------------------------
+function toCentimeters(value, fromUnit) {
+    const unit = lengthUnits.find(unit => unit.name === fromUnit);
+    if (!unit) {
+        throw new Error(`Unit ${fromUnit} not found.`);
+    }
+    return value * unit.ratio;
+}
+
+function fromCentimeters(value, toUnit) {
+    const unit = lengthUnits.find(unit => unit.name === toUnit);
+    if (!unit) {
+        throw new Error(`Unit ${toUnit} not found.`);
+    }
+    return value / unit.ratio;
+}
+
+function diameterToArea(diameter) {
+    const radius = diameter / 2;
+    return Math.PI * Math.pow(radius, 2);
+}
+
+// Function to calculate the diameter from the area of a circle
+function areaToDiameter(area) {
+    const radius = Math.sqrt(area / Math.PI);
+    return 2 * radius;
+}
+
+//TEMP CONVERSION------------------------------------------------------
+function TemperatureConvert(fromUnit, toUnit, number) {
+    if (fromUnit === "ºC" && toUnit === "ºF") {
+        return (number * 9/5) + 32;
+    } else if (fromUnit === "ºF" && toUnit === "ºC") {
+        return (number - 32) * 5/9;
+    } else {
+        // If the units are the same, return the original number
+        return number;
+    }
+}
+
 
 //MATERIAL UNIT CONVERSIONS---------------------------------------------
 
