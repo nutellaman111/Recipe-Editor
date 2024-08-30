@@ -58,11 +58,20 @@ multiplierInput.addEventListener('change', function() {
 })
 function ChangeMultiplier(newValue)
 {
-    multiplier = newValue;
+    if(newValue !== 0)
+    {
+        multiplier = newValue;
+    }
     multiplierInput.value = NumberToString(multiplier);
 
     allBlocks.forEach(block => {
-        UpdateIngredientBlockData(block, 'multiplier');
+        if(block.blockType === "ingredient")
+        {
+            UpdateIngredientBlockData(block, 'multiplier');
+        } else if(block.blockType === "pan")
+        {
+            UpdatePanBlockData(block, 'multiplier');
+        }
     });
 }
 
@@ -96,6 +105,7 @@ function NewPanBlock()
     const block = document.createElement('div');
     block.className = 'block';
     block.setAttribute('contenteditable', 'false'); // Prevent typing inside the block
+    block.blockType = "pan";
 
     // Create the number input
     const widthInput = NumberInputField();
@@ -118,6 +128,7 @@ function NewPanBlock()
 
     block.appendChild(widthInput);
     block.appendChild(textForSquare);
+    block.appendChild(heightInput);
     block.appendChild(diamaterInput);
     block.appendChild(unitSelect);
     block.appendChild(shapeSelect);
@@ -127,26 +138,27 @@ function NewPanBlock()
     block.heightInput = heightInput;
     block.textForSquare = textForSquare;
     block.diamaterInput = diamaterInput;
-    block.unit = unitSelect;
-    block.shape = shapeSelect;
-
-    block.number = numberInput; //number input field - sometimes is rounded
     block.unit = unitSelect.inputField; //unit input field
+    block.shape = shapeSelect.inputField;
+
     
     widthInput.addEventListener('change', (event) => {
-        UpdatePanBlockData(event.target.parentElement, 'width/height');
+        UpdatePanBlockData(event.target.parentElement, 'number');
     });
     heightInput.addEventListener('change', (event) => {
-        UpdatePanBlockData(event.target.parentElement, 'width/height');
+        UpdatePanBlockData(event.target.parentElement, 'number');
     });    
     diamaterInput.addEventListener('change', (event) => {
-        UpdatePanBlockData(event.target.parentElement, 'diamater');
+        UpdatePanBlockData(event.target.parentElement, 'number');
     }); 
 
     unitSelect.inputField.addEventListener('value-set', (event) => {
-        UpdateTempBlockData(event.target.parentElement.parentElement, 'unit');
+        UpdatePanBlockData(event.target.parentElement.parentElement, 'unit');
     })
-    UpdateTempBlockData(block, 'number');
+    shapeSelect.inputField.addEventListener('value-set', (event) => {
+        UpdatePanBlockData(event.target.parentElement.parentElement, 'shape');
+    })
+    UpdatePanBlockData(block, 'number');
 
     return block;  
 }
@@ -154,29 +166,103 @@ function NewPanBlock()
 function UpdatePanBlockData(block, change) {
     // Find the parent block element
 
-    if (change === 'unit') {
-        //console.log(block.amount);
+    if (change === 'number') {
+
+        if(block.widthInput.value <= 0)
+            block.widthInput.value = 1;
+        if(block.heightInput.value <= 0)
+            block.heightInput.value = 1;
+        if(block.diamaterInput.value <= 0)
+            block.diamaterInput.value = 1;
+
+        block.exactWidth = block.widthInput.value;
+        block.exactHeight = block.heightInput.value;
+        block.exactDiameter = block.diamaterInput.value;
+
+        block.widthInput.value = NumberToString(block.exactWidth);
+        block.heightInput.value = NumberToString(block.exactHeight);
+        block.diamaterInput.value = NumberToString(block.exactDiameter);
+
         if(maintain)
         {
-            block.exactNumber = TemperatureConvert("ºC", block.unit.value, block.amount);
-            block.number.value = NumberToString(block.exactNumber);
+            let newTheoreticAmount = CalculatePanAmountBeforeMultiplier(block)
+            ChangeMultiplier(newTheoreticAmount/block.amount);
         }
         else
         {
-            block.amount = TemperatureConvert(block.unit.value, "ºC", block.exactNumber);
+            block.amount = CalculatePanAmountBeforeMultiplier(block)/multiplier;
         }
+    } else if (change === "unit" || change === "multiplier")
+    {
+        if(!maintain)
+        {
+            block.amount = CalculatePanAmountBeforeMultiplier(block)/multiplier;
+        }
+    } else if (change === "shape")
+    {
+        if(block.shape.value === "round")
+        {
+            block.textForSquare.style.display = 'none';
+            block.widthInput.style.display = 'none';
+            block.heightInput.style.display = 'none';
+            block.diamaterInput.style.display = 'block';
+        }
+        else
+        {
+            block.textForSquare.style.display = 'block'
+            block.widthInput.style.display = 'block';
+            block.heightInput.style.display = 'block';
+            block.diamaterInput.style.display = 'none';
 
-    } else if (change === 'number') {
-
-        block.exactNumber = block.number.value;
-        block.number.value = NumberToString(block.exactNumber);
-
-        block.amount = TemperatureConvert(block.unit.value, "ºC", block.exactNumber);
+        }
     }
 
-    console.log("amount is " + block.amount);
+    //keep square and round values updated to result in the correct amount even when one is hidden.
+    //takes multiplier and unit into account
+    let newWidthHeight = CalculateWidthHeightForAmountAndMultiplier(block);
+    block.exactWidth = newWidthHeight.width;
+    block.exactHeight = newWidthHeight.height;
+    block.widthInput.value = NumberToString(block.exactWidth);
+    block.heightInput.value = NumberToString(block.exactHeight);
 
+    block.exactDiameter = CalculateDiameterForAmountAndMultiplier(block);
+    block.diamaterInput.value = NumberToString(block.exactDiameter);
+
+    console.log("amount is " + block.amount);
 }
+function CalculateDiameterForAmountAndMultiplier(block) {
+    // Calculate the radius using the area (amount) provided
+    const radius = Math.sqrt((block.amount*multiplier) / Math.PI);
+    
+    // Calculate the diameter (twice the radius)
+    const diameter = 2 * radius;
+    
+    return fromCentimeters(diameter, block.unit.value);
+}
+function CalculateWidthHeightForAmountAndMultiplier(block) {
+    // Calculate the aspect ratio
+    const aspectRatio = block.exactWidth / block.exactHeight;
+    
+    // Calculate the new height
+    const newHeight = Math.sqrt((block.amount*multiplier) / aspectRatio);
+    
+    // Calculate the new width
+    const newWidth = newHeight * aspectRatio;
+    
+    return {
+        width: fromCentimeters(newWidth, block.unit.value),
+        height: fromCentimeters(newHeight, block.unit.value)
+    };
+}
+function CalculatePanAmountBeforeMultiplier(block)
+{
+    console.log("the shape is " + block.shape.value);
+    if(block.shape.value == "round"){
+        return diameterToArea(toCentimeters(block.exactDiameter, block.unit.value));
+    } else
+    {
+        return toCentimeters(block.exactWidth,block.unit.value)*toCentimeters(block.exactHeight,block.unit.value);
+    }}
 
 //TEMP BLOCK--------------------------------------------------------------
 function NewTempBlock()
@@ -185,6 +271,8 @@ function NewTempBlock()
     const block = document.createElement('div');
     block.className = 'block';
     block.setAttribute('contenteditable', 'false'); // Prevent typing inside the block
+    block.blockType = "temp";
+
 
     // Create the number input
     const numberInput = NumberInputField()
@@ -249,6 +337,7 @@ function NewIngredientBlock()
     const block = document.createElement('div');
     block.className = 'block';
     block.setAttribute('contenteditable', 'false'); // Prevent typing inside the block
+    block.blockType = "ingredient";
 
     // Create the number input
     const numberInput = NumberInputField();
@@ -379,7 +468,15 @@ function CalculateIngredientBlockNumber(block)
 
 function NumberToString(number)
 {
-    return ((Math.ceil(number * 100))/100).toString().replace(/,/g, '')
+    let result = ((Math.round(number * 100)) / 100).toString().replace(/,/g, '');
+    if(number !== 0 && result === "0")
+    {
+        return "0.00"
+    }
+    else
+    {
+        return result;
+    }
 }
 
 function InsertBlock(newBlock) {
