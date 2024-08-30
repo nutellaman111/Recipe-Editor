@@ -15,7 +15,6 @@ const ingredientUnits = [ //ratio = how many times bigger it is than the 'basic 
     { name: 'quarts', type: 'volume', ratio: 946.353 }, // US quart
     { name: 'gallons', type: 'volume', ratio: 3785.41 }, // US gallon
     { name: 'milligrams', type: 'weight', ratio: 0.001 },
-    { name: 'carats', type: 'weight', ratio: 0.2 }
 ];
 const lengthUnits = [
     { name: "centimeter", ratio: 1 },
@@ -51,10 +50,15 @@ toggleSwitch.addEventListener('change', function() {
 //multiplier field
 let multiplier = 1;
 
-const multiplierInput = document.getElementById('numberInput');
+const multiplierInput = NumberInputField(true);
+multiplierInput.id = 'numberInput'; // Set ID
+multiplierInput.className = 'number-input'; // Set class
+multiplierInput.value = '1'; // Set value
 
-multiplierInput.addEventListener('change', function() {
-    ChangeMultiplier(parseFloat(multiplierInput.value));
+document.getElementById('multiplierContainer').appendChild(multiplierInput);
+
+multiplierInput.addEventListener('value-set', function() {
+    ChangeMultiplier(multiplierInput.exactValue);
 })
 function ChangeMultiplier(newValue)
 {
@@ -62,7 +66,7 @@ function ChangeMultiplier(newValue)
     {
         multiplier = newValue;
     }
-    multiplierInput.value = NumberToString(multiplier);
+    multiplierInput.SetNumber(newValue);
 
     allBlocks.forEach(block => {
         if(block.blockType === "ingredient")
@@ -108,12 +112,9 @@ function NewPanBlock()
     block.blockType = "pan";
 
     // Create the number input
-    const widthInput = NumberInputField();
-    widthInput.value = 1;
-    const heightInput = NumberInputField();
-    heightInput.value = 1;
-    const diamaterInput = NumberInputField();
-    diamaterInput.value = 1;
+    const widthInput = NumberInputField(false);
+    const heightInput = NumberInputField(false);
+    const diamaterInput = NumberInputField(false);
 
     const unitSelect = createAutocompleteField("unit", lengthUnits.map(x=>x.name), true);
     const shapeSelect = createAutocompleteField("shape", ["round", "square"], true);
@@ -141,14 +142,18 @@ function NewPanBlock()
     block.unit = unitSelect.inputField; //unit input field
     block.shape = shapeSelect.inputField;
 
+    widthInput.SetNumber(1);
+    heightInput.SetNumber(1);
+    diamaterInput.SetNumber(1);
+    UpdatePanBlockData(block, 'number');
     
-    widthInput.addEventListener('change', (event) => {
+    widthInput.addEventListener('value-set', (event) => {
         UpdatePanBlockData(event.target.parentElement, 'number');
     });
-    heightInput.addEventListener('change', (event) => {
+    heightInput.addEventListener('value-set', (event) => {
         UpdatePanBlockData(event.target.parentElement, 'number');
     });    
-    diamaterInput.addEventListener('change', (event) => {
+    diamaterInput.addEventListener('value-set', (event) => {
         UpdatePanBlockData(event.target.parentElement, 'number');
     }); 
 
@@ -158,7 +163,6 @@ function NewPanBlock()
     shapeSelect.inputField.addEventListener('value-set', (event) => {
         UpdatePanBlockData(event.target.parentElement.parentElement, 'shape');
     })
-    UpdatePanBlockData(block, 'number');
 
     return block;  
 }
@@ -168,22 +172,14 @@ function UpdatePanBlockData(block, change) {
 
     if (change === 'number') {
 
-        if(block.widthInput.value <= 0)
-            block.widthInput.value = 1;
-        if(block.heightInput.value <= 0)
-            block.heightInput.value = 1;
-        if(block.diamaterInput.value <= 0)
-            block.diamaterInput.value = 1;
+        if(block.widthInput.exactValue <= 0)
+            block.widthInput.SetNumber(1);
+        if(block.heightInput.exactValue <= 0)
+            block.heightInput.SetNumber(1);
+        if(block.diamaterInput.exactValue <= 0)
+            block.diamaterInput.SetNumber(1);
 
-        block.exactWidth = block.widthInput.value;
-        block.exactHeight = block.heightInput.value;
-        block.exactDiameter = block.diamaterInput.value;
-
-        block.widthInput.value = NumberToString(block.exactWidth);
-        block.heightInput.value = NumberToString(block.exactHeight);
-        block.diamaterInput.value = NumberToString(block.exactDiameter);
-
-        if(maintain)
+        if(maintain && block.amount != null)
         {
             let newTheoreticAmount = CalculatePanAmountBeforeMultiplier(block)
             ChangeMultiplier(newTheoreticAmount/block.amount);
@@ -220,13 +216,10 @@ function UpdatePanBlockData(block, change) {
     //keep square and round values updated to result in the correct amount even when one is hidden.
     //takes multiplier and unit into account
     let newWidthHeight = CalculateWidthHeightForAmountAndMultiplier(block);
-    block.exactWidth = newWidthHeight.width;
-    block.exactHeight = newWidthHeight.height;
-    block.widthInput.value = NumberToString(block.exactWidth);
-    block.heightInput.value = NumberToString(block.exactHeight);
-
-    block.exactDiameter = CalculateDiameterForAmountAndMultiplier(block);
-    block.diamaterInput.value = NumberToString(block.exactDiameter);
+    block.widthInput.SetNumber(newWidthHeight.width);
+    block.heightInput.SetNumber(newWidthHeight.height);
+    
+    block.diamaterInput.SetNumber(CalculateDiameterForAmountAndMultiplier(block));
 
     console.log("amount is " + block.amount);
 }
@@ -241,7 +234,7 @@ function CalculateDiameterForAmountAndMultiplier(block) {
 }
 function CalculateWidthHeightForAmountAndMultiplier(block) {
     // Calculate the aspect ratio
-    const aspectRatio = block.exactWidth / block.exactHeight;
+    const aspectRatio = block.widthInput.exactValue / block.heightInput.exactValue;
     
     // Calculate the new height
     const newHeight = Math.sqrt((block.amount*multiplier) / aspectRatio);
@@ -256,12 +249,12 @@ function CalculateWidthHeightForAmountAndMultiplier(block) {
 }
 function CalculatePanAmountBeforeMultiplier(block)
 {
-    console.log("the shape is " + block.shape.value);
     if(block.shape.value == "round"){
-        return diameterToArea(toCentimeters(block.exactDiameter, block.unit.value));
+        return diameterToArea(toCentimeters(block.diamaterInput.exactValue, block.unit.value));
     } else
     {
-        return toCentimeters(block.exactWidth,block.unit.value)*toCentimeters(block.exactHeight,block.unit.value);
+        return toCentimeters(block.widthInput.exactValue,block.unit.value)
+            *toCentimeters(block.heightInput.exactValue,block.unit.value);
     }}
 
 //TEMP BLOCK--------------------------------------------------------------
@@ -273,22 +266,20 @@ function NewTempBlock()
     block.setAttribute('contenteditable', 'false'); // Prevent typing inside the block
     block.blockType = "temp";
 
-
     // Create the number input
-    const numberInput = NumberInputField()
-    numberInput.value = '180'; // Default value
+    const numberInput = NumberInputField(false)
 
     // Create the unit select menu
-    //const unitSelect = createAutocompleteField("choose", ["Apple", "Banana", "Orange", "Grapes", "Pineapple"]);/*document.createElement('select');
     const unitSelect = createAutocompleteField("unit", ["ºC", "ºF"], true);
 
     block.appendChild(numberInput);
     block.appendChild(unitSelect);
 
-    block.number = numberInput; //number input field - sometimes is rounded
-    block.unit = unitSelect.inputField; //unit input field
+    block.number = numberInput; 
+    block.number.SetNumber(180);
+    block.unit = unitSelect.inputField; 
     
-    numberInput.addEventListener('change', (event) => {
+    numberInput.addEventListener('value-set', (event) => {
         console.log("number changed");
         UpdateTempBlockData(event.target.parentElement, 'number');
     });    
@@ -309,20 +300,16 @@ function UpdateTempBlockData(block, change) {
         //console.log(block.amount);
         if(maintain)
         {
-            block.exactNumber = TemperatureConvert("ºC", block.unit.value, block.amount);
-            block.number.value = NumberToString(block.exactNumber);
+            block.number.SetNumber(TemperatureConvert("ºC", block.unit.value, block.amount));
         }
         else
         {
-            block.amount = TemperatureConvert(block.unit.value, "ºC", block.exactNumber);
+            block.amount = TemperatureConvert(block.unit.value, "ºC", block.number.exactValue);
         }
 
     } else if (change === 'number') {
 
-        block.exactNumber = block.number.value;
-        block.number.value = NumberToString(block.exactNumber);
-
-        block.amount = TemperatureConvert(block.unit.value, "ºC", block.exactNumber);
+        block.amount = TemperatureConvert(block.unit.value, "ºC", block.number.exactValue);
     }
 
     console.log("amount is " + block.amount);
@@ -340,8 +327,7 @@ function NewIngredientBlock()
     block.blockType = "ingredient";
 
     // Create the number input
-    const numberInput = NumberInputField();
-    numberInput.value = '1'; // Default value
+    const numberInput = NumberInputField(true);
 
     // Create the unit select menu
     //const unitSelect = createAutocompleteField("choose", ["Apple", "Banana", "Orange", "Grapes", "Pineapple"]);/*document.createElement('select');
@@ -354,16 +340,16 @@ function NewIngredientBlock()
     block.appendChild(unitSelect);
     block.appendChild(materialSelect);
 
-    block.number = numberInput; //number input field - sometimes is rounded
-    block.exactNumber = numberInput.value; //exact number, not always displayed accurately
+    block.number = numberInput; 
     block.unit = unitSelect.inputField; //unit input field
     block.material = materialSelect.inputField; //material input field
     block.unitLastValue = block.unit.value;
 
+    block.number.SetNumber(1);
     UpdateIngredientBlockData(block, 'number');
 
     
-    numberInput.addEventListener('change', (event) => {
+    numberInput.addEventListener('value-set', (event) => {
         console.log("number changed");
         UpdateIngredientBlockData(event.target.parentElement, 'number');
     });    
@@ -387,14 +373,12 @@ function NewIngredientBlock()
 function UpdateIngredientBlockData(block, change) {
     // Find the parent block element
 
-    console.log(`${block.number.value} ${block.unit.value} ${block.material.value}`);
     if (change === 'unit') {
         //console.log(block.amount);
         block.unitLastValue = block.unit.value;
         if(maintain)
         {
-            block.exactNumber = CalculateIngredientBlockNumber(block)
-            block.number.value = NumberToString(block.exactNumber);
+            block.number.SetNumber(CalculateIngredientBlockNumber(block));
         }
         else
         {
@@ -403,16 +387,14 @@ function UpdateIngredientBlockData(block, change) {
 
     } else if (change === 'number') {
 
-        if(block.number.value <= 0)
+        if(block.number.exactValue <= 0)
         {
-            block.number.value = 1;
+            block.number.SetNumber(1);
         }
-        block.exactNumber = block.number.value;
-        block.number.value = NumberToString(block.exactNumber);
 
         if(maintain && block.amount != null)
         {           
-            var newAmount = ToGrams(block.unit.value, block.exactNumber, block.material.value);
+            var newAmount = ToGrams(block.unit.value, block.number.exactValue, block.material.value);
             var newMultiplier = newAmount/block.amount;
             ChangeMultiplier(newMultiplier);
         }
@@ -427,8 +409,7 @@ function UpdateIngredientBlockData(block, change) {
     } else if (change === 'multiplier') {
         if(maintain)
         {
-            block.exactNumber = CalculateIngredientBlockNumber(block);
-            block.number.value = NumberToString(block.exactNumber);
+            block.number.SetNumber(CalculateIngredientBlockNumber(block));
         }
         else
         {
@@ -457,7 +438,7 @@ function UpdateIngredientBlockData(block, change) {
 }
 function CalculateIngredientBlockAmount(block)
 {
-    return ToGrams(block.unit.value, block.exactNumber ,block.material.value)/multiplier;;
+    return ToGrams(block.unit.value, block.number.exactValue ,block.material.value)/multiplier;;
 }
 function CalculateIngredientBlockNumber(block)
 {
@@ -466,18 +447,153 @@ function CalculateIngredientBlockNumber(block)
 
 //MISC SHARED USAGE-----------------------------------------
 
-function NumberToString(number)
+function NumberInputField(fractionDisplay)
 {
-    let result = ((Math.round(number * 100)) / 100).toString().replace(/,/g, '');
-    if(number !== 0 && result === "0")
+    // Create the number input
+    const numberInput = document.createElement('input');
+    numberInput.type = 'text';
+    numberInput.className = 'number';
+    numberInput.fractionDisplay = fractionDisplay == null? true : fractionDisplay;
+
+    numberInput.addEventListener('blur', function() { //MAKE THIS 'CHANGE' TO FIX BUGS
+        // Use SetNumber to handle the input value
+        numberInput.SetNumber(numberInput.value);
+        numberInput.dispatchEvent(new CustomEvent('value-set', event));
+    });
+
+    numberInput.addEventListener('focus', function(){
+        if((numberInput.exactValue != null)&&(StringToNumber(numberInput.value) != numberInput.exactValue))
+        {
+            numberInput.value = numberInput.exactValue;
+        }
+        numberInput.select();
+    })
+
+    numberInput.SetNumber = function(newValue) {
+        if (typeof newValue === 'number') {
+            // If newValue is a number, set exactValue directly
+            this.exactValue = newValue;
+        } else if (typeof newValue === 'string') {
+            // If newValue is a string, convert it to a number using the custom function
+            this.exactValue = StringToNumber(newValue);
+        }
+
+        // Update the input's value using the custom number-to-string function
+        this.value = NumberToString(this.exactValue, this.fractionDisplay);
+    };
+
+    return numberInput;
+}
+
+function NumberToString(number, fractionDisplay) {
+
+    // Round the number to 2 decimal places
+    let rounded = Math.round(number * 100) / 100;
+
+    //handle 0's and near 0's
+    if(rounded === 0)
     {
-        return "0.00"
+        if(number === 0)
+        {
+            return "0";
+        }
+        else
+        {
+            return "<0.01";
+        }
     }
-    else
-    {
+
+    // Extract the integer and fractional parts of the number
+    let integerPart = Math.floor(number);
+    let fractionalPart = number - integerPart;
+
+    // Find the closest fraction if possible
+    let closest = findClosestFraction(fractionalPart);
+    function findClosestFraction(num) {
+        const dividers = [2, 3, 4, 8];
+        const tolerance = 0.005;
+        for (let divider of dividers) {
+            let multiple = Math.round(num / (1/divider));
+            let fractionValue = multiple * (1/divider);
+
+            if (Math.abs(num - fractionValue) < tolerance) {
+                return { divider: divider, multiple: multiple };
+            }
+        }
+        return null;
+    }
+
+    if (fractionDisplay && closest !== null) {
+        //if a fraction is found, use that
+        if(integerPart === 0)
+        {
+            return `${closest.multiple}/${closest.divider}`;
+        }
+        else if(closest.multiple == 0)
+        {
+            return `${integerPart}`;
+        }
+        else
+        {
+            return `${integerPart} ${closest.multiple}/${closest.divider}`;
+        }
+    } else {
+        // If no fraction is close enough, return the decimal number
+        let result = rounded.toString();
         return result;
     }
 }
+function StringToNumber(str) {
+    try {
+        // Trim leading and trailing whitespace
+        str = str.trim();
+
+        // Check if the string contains a space, indicating it might be a mixed fraction
+        if (str.includes(' ')) {
+            // Split into integer and fraction parts
+            let [integerPart, fractionPart] = str.split(' ');
+
+            // Convert the integer part to a number
+            let integerNum = parseFloat(integerPart);
+
+            // Handle cases where the integer part is not present (i.e., " 3/4")
+            if (isNaN(integerNum)) {
+                integerNum = 0;
+            }
+
+            // Handle the fractional part
+            if (fractionPart.includes('/')) {
+                let [numerator, denominator] = fractionPart.split('/').map(Number);
+                if (isNaN(numerator) || isNaN(denominator) || denominator === 0) {
+                    return 1; // Invalid fraction
+                }
+                return integerNum + (numerator / denominator);
+            } else {
+                // Handle cases where the fraction part is not in the format of "numerator/denominator"
+                return integerNum;
+            }
+        } else if (str.includes('/')) {
+            // Handle simple fractions like "3/4"
+            let [numerator, denominator] = str.split('/').map(Number);
+            if (isNaN(numerator) || isNaN(denominator) || denominator === 0) {
+                return 1; // Invalid fraction
+            }
+            return numerator / denominator;
+        } else {
+            // Handle plain decimal numbers
+            let number = parseFloat(str);
+            if (isNaN(number)) {
+                return 1; // Invalid number
+            }
+            return number;
+        }
+    } catch {
+        // Catch any unexpected errors and return 1
+        return 1;
+    }
+}
+
+
 
 function InsertBlock(newBlock) {
     // Check if the cursor is inside the editor
@@ -512,15 +628,7 @@ function InsertBlock(newBlock) {
     console.log(allBlocks.length)
 }
 
-function NumberInputField()
-{
-    // Create the number input
-    const numberInput = document.createElement('input');
-    numberInput.type = 'number';
-    numberInput.className = 'number';
 
-    return numberInput;
-}
 //AUTO COMPLETE FIELDS--------------------------------------------------
 
 function createAutocompleteField(placeholderText, suggestionsList, forceDefault) {
