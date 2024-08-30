@@ -673,7 +673,7 @@ function createAutocompleteField(placeholderText, suggestionsList, forceDefault)
             suggestionsContainer.style.display = 'none';
             if(forceDefault && !autocomplete.suggestionsList.includes(inputField.value))
             {
-                if(autocomplete.nearestOption != null && !autocomplete.suggestionsList.includes(autocomplete.nearestOption))
+                if(autocomplete.nearestOption != null && autocomplete.suggestionsList.includes(autocomplete.nearestOption))
                 {
                     inputField.value = autocomplete.nearestOption;
                 }
