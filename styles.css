@@ -2,10 +2,8 @@
     --text: #080707;
     --background: #f9f8f6;
     --primary: #ffa442;
+    --primaryDark: #e98b27;
     --secondary: #e7d1b9;
-    --accent: #dda569;
-    
-    
   }
 
 body {
@@ -93,7 +91,7 @@ h1 {
 }
 
 /* Styling for the number input */
-.block .number {
+.number {
     field-sizing: content;
     min-width: 10px; /* Optional: maximum width */
     padding: 4px; /* Reduced padding */
@@ -103,10 +101,9 @@ h1 {
     background-color: var(--secondary); /* Background color for distinction */
     font-size: 16px; /* Ensure text fits well */
     text-align: center;
-    background-color: var(--secondary); /* Background color for distinction */
 
 }
-.block .number:focus {
+.number:focus {
     outline: none;
     box-shadow: 0 0 0 2px var(--primary);
 }
@@ -182,58 +179,14 @@ button {
     color: white;
     outline: none;
     flex-grow: 1;
-
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: var(--primaryDark);
 }
 
-/* Mobile app style toggle switch */
-.toggle-switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-}
 
-.toggle-switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
 
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: var(--secondary);
-    transition: 0.4s;
-    border-radius: 34px;
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: var(--background);
-    transition: 0.4s;
-    border-radius: 50%;
-}
-
-input:checked + .slider {
-    background-color: var(--primary);
-}
-
-input:checked + .slider:before {
-    transform: translateX(26px);
-}
 
 /* Styling for the number input next to the button */
 .number-input {
@@ -265,4 +218,72 @@ input:checked + .slider:before {
 #multiplierContainerWrapper {
     display: flex;
     align-items: center; /* Align items vertically centered */
+
 }
+
+
+.toggle-container {
+    width: 45px;
+    height: 45px;
+    position: relative;
+    display: inline-block; /* Ensure the container fits the icon size */
+}
+
+
+
+
+.toggle-checkbox {
+    display: none;
+    
+}
+
+.toggle-label {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    cursor: pointer;
+    border-radius: 4px;
+    background-color: var(--secondary);
+
+}
+
+.toggle-checkbox:checked + .toggle-label {
+    background-color: var(--primary);
+}
+
+/* Ensure hover effect is applied even if the checkbox is checked */
+.toggle-checkbox:checked + .toggle-label:hover {
+    background-color: var(--primaryDark);
+}
+
+/* Ensure hover effect is applied even if the checkbox is checked */
+.toggle-label:hover {
+    background-color: var(--primaryDark);
+}
+
+.toggle-icon {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    
+}
+
+.unlock-icon {
+    opacity: 0;
+}
+
+.lock-icon {
+    opacity: 0;
+}
+
+.toggle-checkbox:checked + .toggle-label .lock-icon {
+    opacity: 1;
+}
+
+.toggle-checkbox:not(:checked) + .toggle-label .unlock-icon {
+    opacity: 1;
+}
+

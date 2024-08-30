@@ -41,7 +41,7 @@ const allBlocks = [];
 //maintain ratios
 let maintain = false; 
 
-const toggleSwitch = document.getElementById('toggleSwitch');
+const toggleSwitch = document.getElementById('lockToggle');
 
 toggleSwitch.addEventListener('change', function() {
     maintain = this.checked;
@@ -52,7 +52,6 @@ let multiplier = 1;
 
 const multiplierInput = NumberInputField(true);
 multiplierInput.id = 'numberInput'; // Set ID
-multiplierInput.className = 'number-input'; // Set class
 multiplierInput.value = '1'; // Set value
 
 document.getElementById('multiplierContainer').appendChild(multiplierInput);
