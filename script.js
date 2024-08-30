@@ -595,37 +595,38 @@ function StringToNumber(str) {
 
 
 function InsertBlock(newBlock) {
-    // Check if the cursor is inside the editor
     const selection = window.getSelection();
+    let range;
+
     if (!selection.rangeCount) {
-        //console.log('Please click inside the text editor before adding a block.');
-        return;
+        // No selection range available
+        range = document.createRange();
+        range.selectNodeContents(editor); // Select the entire content of the editor
+        range.collapse(false); // Move to the end of the content
+    } else {
+        range = selection.getRangeAt(0);
+        if (!editor.contains(range.startContainer)) {
+            // Cursor not inside the editor, move range to the end of the editor
+            range = document.createRange();
+            range.selectNodeContents(editor);
+            range.collapse(false); // Move to the end of the content
+        }
     }
 
-    const range = selection.getRangeAt(0);
-    if (!editor.contains(range.startContainer)) {
-        //console.log('Please click inside the text editor before adding a block.');
-        return;
-    }
-
-    /*if(document.activeElement !== editor)
-    {
-        return;
-    }*/
-
-    // replace text selection with the new block
+    // Replace text selection with the new block
     range.deleteContents();
     range.insertNode(newBlock);
 
-    //set cursor after block
+    // Set cursor after block
     range.setStartAfter(newBlock); 
     range.collapse(true); 
     selection.removeAllRanges(); 
     selection.addRange(range); 
 
     allBlocks.push(newBlock);
-    console.log(allBlocks.length)
+    console.log(allBlocks.length);
 }
+
 
 
 //AUTO COMPLETE FIELDS--------------------------------------------------
