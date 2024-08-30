@@ -673,9 +673,16 @@ function createAutocompleteField(placeholderText, suggestionsList, forceDefault)
             suggestionsContainer.style.display = 'none';
             if(forceDefault && !autocomplete.suggestionsList.includes(inputField.value))
             {
-                inputField.value = autocomplete.nearestOption;
+                if(autocomplete.nearestOption != null && !autocomplete.suggestionsList.includes(autocomplete.nearestOption))
+                {
+                    inputField.value = autocomplete.nearestOption;
+                }
+                else
+                {
+                    inputField.value = autocomplete.suggestionsList[0];
+                }
             }
-            autocomplete.nearestOption = autocomplete.suggestionsList[0];
+            autocomplete.nearestOption = inputField.value;
             inputField.dispatchEvent(new CustomEvent('value-set', event));
 
         }, 100);  // Delay to allow click event to register
