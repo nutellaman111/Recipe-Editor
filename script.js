@@ -510,7 +510,7 @@ function NumberToString(number, fractionDisplay) {
     // Find the closest fraction if possible
     let closest = findClosestFraction(fractionalPart);
     function findClosestFraction(num) {
-        const dividers = [2, 3, 4, 8];
+        const dividers = [1, 2, 3, 4, 8];
         const tolerance = 0.005;
         for (let divider of dividers) {
             let multiple = Math.round(num / (1/divider));
@@ -523,7 +523,7 @@ function NumberToString(number, fractionDisplay) {
         return null;
     }
 
-    if (fractionDisplay && closest !== null) {
+    if (fractionDisplay && closest !== null && closest.divider != 1) {
         //if a fraction is found, use that
         if(integerPart === 0)
         {
