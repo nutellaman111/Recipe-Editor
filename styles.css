@@ -40,13 +40,14 @@ h1 {
 }
 
 .header-controls {
-    min-width: 40%;
+
+    width: 60%;
+    max-width: 600px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 20px;
-}
-.header-controls {
+    backdrop-filter: blur(10px);
     position: fixed;
     top: 15px;
     left: 50%;
@@ -55,13 +56,9 @@ h1 {
     align-items: center;
     padding: 10px 20px;
     background-color: var(--background);
-    backdrop-filter: blur(10px); /* Blurs the content behind the element */
     border-radius: 25px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 1000; /* Ensure it stays above other content */
-}
-
-.header-controls > * {
     margin-right: 10px; /* Space between elements */
 }
 

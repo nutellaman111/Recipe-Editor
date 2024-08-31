@@ -34,7 +34,7 @@ const materials = [ //ratios = how many of basic units of type X is in 1 ml. for
     { name: 'butter', ratios: { volume: 1, weight: 0.91 } }
 ];
 // Array to store block data
-const allBlocks = [];
+let allBlocks = [];
 
 //CONTROLS----------------------------------------------------------
 
@@ -95,18 +95,105 @@ addPanBlockButton.addEventListener('click', () => {
     InsertBlock(NewPanBlock());
 });
 
-//TO TEXT--------------------------------------------------------
+//TO CODE--------------------------------------------------------
+const toCodeButton = document.getElementById('toCode');
+toCodeButton.addEventListener('click', () => {
+    ReplaceBlocksWithText();
+});
+
 function ReplaceBlocksWithText() {
     allBlocks.forEach(block => {
         // Create the text node "[block]"
-        const textNode = document.createTextNode("[block]");
-        
-        // Replace the block with the text node
-        block.parentNode.replaceChild(textNode, block);
-    });
 
+        if(block == null || block.parentNode == null) {
+            console.log("null block!");
+        }else{
+            const textNode = document.createTextNode(block.AsCode());
+
+            block.parentNode.replaceChild(textNode, block);
+        }
+
+    });
     // Clear the allBlocks array since all blocks have been replaced
     allBlocks = [];
+}
+
+//TO BLOCKS-----------------------------------------------------------
+const toBlocksButton = document.getElementById('toBlocks');
+toBlocksButton.addEventListener('click', () => {
+    ReplaceTextWithBlocks();
+});
+function ReplaceTextWithBlocks() {
+    const editor = document.getElementById('editor');
+    const pattern = /<([^<]+?)>/g; // Regular expression to match the pattern
+
+    traverseNodes(editor);
+
+    function traverseNodes(node) {
+
+        if (node.nodeType === Node.TEXT_NODE) {
+
+            if(processTextNode(node))
+                {
+                    traverseNodes(editor);
+                    return;
+                };
+
+        } else if (node.nodeType === Node.ELEMENT_NODE) {
+
+            for (let childNode of node.childNodes) {
+                traverseNodes(childNode) 
+            }
+        }
+    }
+
+    function processTextNode(textNode) {
+        const textContent = textNode.nodeValue;
+        let match;
+        let lastIndex = 0;
+        let change = false;
+        
+        if ((match = pattern.exec(textContent)) !== null) {
+            const [fullMatch, innerContent] = match;
+            const start = match.index;
+            const end = pattern.lastIndex;
+
+            // Extract parameters from the pattern
+            const params = innerContent.split('/');
+
+            // Create a new block element with parameters
+            const newBlock = BlockFromPars(params);
+            
+            // Insert the new block
+            const range = document.createRange();
+            range.setStart(textNode, start);
+            range.setEnd(textNode, end);
+            range.deleteContents();
+            range.insertNode(newBlock);
+            allBlocks.push(newBlock);
+
+            change = true;
+        }
+
+        // Remove the original text node if it's empty
+        if (textNode.nodeValue.length === 0) {
+            textNode.parentNode.removeChild(textNode);
+        }
+
+        return change;
+    }
+}
+
+
+function BlockFromPars(parms)
+{
+    if(parms[0] === "ingredient"){
+        return NewIngredientBlock(parms);
+    } else if (parms[0] === "temp"){
+        return NewTempBlock(parms);
+    } else if (parms[0] === "pan"){
+        return NewPanBlock(parms);
+    }
 }
 
 //EDITOR-------------------------------------------------------------
@@ -114,7 +201,7 @@ const editor = document.getElementById('editor');
 
 
 //PAN BLOCK----------------------------------------------------------
-function NewPanBlock()
+function NewPanBlock(parms)
 {
     // Create the new block
     const block = document.createElement('div');
@@ -134,9 +221,6 @@ function NewPanBlock()
 
     const textForSquare = document.createElement('span');
     textForSquare.appendChild(document.createTextNode("x "));
-    textForSquare.style.display = 'none';
-    widthInput.style.display = 'none';
-    heightInput.style.display = 'none';
 
     block.appendChild(widthInput);
     block.appendChild(textForSquare);
@@ -152,11 +236,29 @@ function NewPanBlock()
     block.diamaterInput = diamaterInput;
     block.unit = unitSelect.inputField; //unit input field
     block.shape = shapeSelect.inputField;
+    block.container = containerSelect.inputField;
 
-    widthInput.SetNumber(1);
-    heightInput.SetNumber(1);
-    diamaterInput.SetNumber(1);
+
+
+    if(parms != null)
+        {
+            widthInput.SetNumber(parms[1]);
+            heightInput.SetNumber(parms[2]);
+            diamaterInput.SetNumber(parms[3]);
+            unitSelect.SetOption(parms[4]);
+            shapeSelect.SetOption(parms[5]);
+            containerSelect.SetOption(parms[6]);
+
+        }
+        else
+        {
+            widthInput.SetNumber(1);
+            heightInput.SetNumber(1);
+            diamaterInput.SetNumber(1);
+        }
     UpdatePanBlockData(block, 'number');
+    UpdatePanBlockData(block, 'shape');
+
     
     widthInput.addEventListener('value-set', (event) => {
         UpdatePanBlockData(event.target.parentElement, 'number');
@@ -174,6 +276,11 @@ function NewPanBlock()
     shapeSelect.inputField.addEventListener('value-set', (event) => {
         UpdatePanBlockData(event.target.parentElement.parentElement, 'shape');
     })
+
+
+    block.AsCode = () => {
+        return `<${block.blockType}/${block.widthInput.exactValue}/${block.heightInput.exactValue}/${block.diamaterInput.exactValue}/${block.unit.value}/${block.shape.value}/${block.container.value}>`;
+    }
 
     return block;  
 }
@@ -269,7 +376,7 @@ function CalculatePanAmountBeforeMultiplier(block)
     }}
 
 //TEMP BLOCK--------------------------------------------------------------
-function NewTempBlock()
+function NewTempBlock(parms)
 {
     // Create the new block
     const block = document.createElement('div');
@@ -287,9 +394,19 @@ function NewTempBlock()
     block.appendChild(unitSelect);
 
     block.number = numberInput; 
-    block.number.SetNumber(180);
     block.unit = unitSelect.inputField; 
     
+    if(parms != null)
+    {
+        block.number.SetNumber(parms[1]);
+        unitSelect.SetOption(parms[2]);
+    }
+    else
+    {
+        block.number.SetNumber(180);
+    }
+    UpdateTempBlockData(block, 'number');
+
     numberInput.addEventListener('value-set', (event) => {
         console.log("number changed");
         UpdateTempBlockData(event.target.parentElement, 'number');
@@ -299,7 +416,10 @@ function NewTempBlock()
         console.log("value of input field is" + unitSelect.inputField.value);
         UpdateTempBlockData(event.target.parentElement.parentElement, 'unit');
     });
-    UpdateTempBlockData(block, 'number');
+
+    block.AsCode = () => {
+        return `<${block.blockType}/${block.number.exactValue}/${block.unit.value}>`;
+    }
 
     return block;  
 }
@@ -329,7 +449,7 @@ function UpdateTempBlockData(block, change) {
 
 
 //INGREDIENT BLOCK--------------------------------------------------------------
-function NewIngredientBlock()
+function NewIngredientBlock(parms)
 {
     // Create the new block
     const block = document.createElement('div');
@@ -354,10 +474,19 @@ function NewIngredientBlock()
     block.number = numberInput; 
     block.unit = unitSelect.inputField; //unit input field
     block.material = materialSelect.inputField; //material input field
-    block.unitLastValue = block.unit.value;
 
-    block.number.SetNumber(1);
+    if(parms != null)
+        {
+            block.number.SetNumber(parms[1]);
+            unitSelect.SetOption(parms[2]);
+            materialSelect.SetOption(parms[3]);
+        }
+        else
+        {
+            block.number.SetNumber(1);
+        }
     UpdateIngredientBlockData(block, 'number');
+    UpdateIngredientBlockData(block, 'unit');
 
     
     numberInput.addEventListener('value-set', (event) => {
@@ -377,6 +506,10 @@ function NewIngredientBlock()
     unitSelect.inputField.addEventListener('options-update', (event) => {
         UpdateIngredientBlockData(event.target.parentElement.parentElement, 'optionsUpdate');
     });
+    
+    block.AsCode = () => {
+        return `<${block.blockType}/${block.number.exactValue}/${block.unit.value}/${block.material.value}>`;
+    }
 
     return block;  
 }
@@ -672,6 +805,12 @@ function createAutocompleteField(placeholderText, suggestionsList, forceDefault)
         inputField.value = autocomplete.nearestOption;
     }
 
+    autocomplete.SetOption = function(option) {
+        if (!forceDefault || autocomplete.suggestionsList.includes(option)) {
+            autocomplete.inputField.value = option;
+        }
+    };
+
     inputField.addEventListener('focus', function(){
         inputField.select();
         handleInputSuggestions.call(inputField);
@@ -683,7 +822,7 @@ function createAutocompleteField(placeholderText, suggestionsList, forceDefault)
     inputField.addEventListener('blur', function() {
         setTimeout(() => {
             suggestionsContainer.style.display = 'none';
-            if(forceDefault && !autocomplete.suggestionsList.includes(inputField.value))
+            if(autocomplete.forceDefault && !autocomplete.suggestionsList.includes(inputField.value))
             {
                 if(autocomplete.nearestOption != null && autocomplete.suggestionsList.includes(autocomplete.nearestOption))
                 {
@@ -700,6 +839,8 @@ function createAutocompleteField(placeholderText, suggestionsList, forceDefault)
         }, 100);  // Delay to allow click event to register
     });
 
+
+    
     console.log("fart " + autocomplete.inputField.value);
     return autocomplete;
 }
