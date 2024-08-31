@@ -15,34 +15,48 @@
     <div class="header-controls">
   
         <div style="display: flex; gap: 10px">
-            <button id="addIngredientBlock">
+            <button id="addIngredientBlock" class="tooltip">
                 <img src="images/ingredient.png" alt="add ingredient" width="40">
+                <span class="tooltiptext">Add ingredient block</span>
             </button>
-            <button id="addTempBlock">
+            <button id="addTempBlock" class="tooltip">
                 <img src="images/temp.png" alt="add temparture" width="40">
+                <span class="tooltiptext">Add temparture block</span>
+
             </button>
-            <button id="addPanBlock">
+            <button id="addPanBlock" class="tooltip">
                 <img src="images/pan.png" alt="add container" width="40">
+                <span class="tooltiptext">Add container block</span>
             </button>
         </div>
         <div style="display: flex; gap: 10px">
-            <button id="toCode">
+            <button id="toCode" class="tooltip">
                 <img src="images/code.png" alt="to code" width="40">
+                <span class="tooltiptext">Convert blocks to code</span>
             </button>
-            <button id="toBlocks">
+            <button id="toBlocks" class="tooltip">
                 <img src="images/block.png" alt="to blocks" width="40">
+                <span class="tooltiptext">Convert code to blocks</span>
             </button>
         </div>
         <div style="display: flex; gap: 10px">
             <div id="multiplierContainerWrapper">
                 <span class="number-input-x">x</span>
-                <div id="multiplierContainer"></div> 
+                <div id="multiplierContainer" class="tooltip">
+                    <span class="tooltiptext">Recipe Multiplier</span>
+                </div> 
             </div>
             <div class="toggle-container">
                 <input type="checkbox" id="lockToggle" class="toggle-checkbox">
                 <label for="lockToggle" class="toggle-label">
-                    <img src="images/lock.png" alt="Lock" class="toggle-icon lock-icon" width="40">
-                    <img src="images/unlock.png" alt="Unlock" class="toggle-icon unlock-icon" width="40">
+                    <div class="toggle-icon lock-icon tooltip">
+                        <img src="images/lock.png" alt="Lock"  width="40" class="toggle-icon">
+                        <span class="tooltiptext">Unlock ratios</span>
+                    </div>
+                    <div class="toggle-icon unlock-icon tooltip">
+                        <img src="images/unlock.png" alt="Unlock" width="40" class="toggle-icon">
+                        <span class="tooltiptext">Lock ratios</span>
+                    </div>
                 </label>
             </div>  
         </div>
