@@ -51,9 +51,8 @@ toggleSwitch.addEventListener('change', function() {
 let multiplier = 1;
 
 const multiplierInput = NumberInputField(true);
-multiplierInput.id = 'numberInput'; // Set ID
+multiplierInput.id = 'multiplier'; // Set ID
 multiplierInput.value = '1'; // Set value
-
 document.getElementById('multiplierContainer').appendChild(multiplierInput);
 
 multiplierInput.addEventListener('value-set', function() {
@@ -96,6 +95,19 @@ addPanBlockButton.addEventListener('click', () => {
     InsertBlock(NewPanBlock());
 });
 
+//TO TEXT--------------------------------------------------------
+function ReplaceBlocksWithText() {
+    allBlocks.forEach(block => {
+        // Create the text node "[block]"
+        const textNode = document.createTextNode("[block]");
+        
+        // Replace the block with the text node
+        block.parentNode.replaceChild(textNode, block);
+    });
+
+    // Clear the allBlocks array since all blocks have been replaced
+    allBlocks = [];
+}
 
 //EDITOR-------------------------------------------------------------
 const editor = document.getElementById('editor');

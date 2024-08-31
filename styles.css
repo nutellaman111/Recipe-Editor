@@ -179,41 +179,24 @@ button {
     color: white;
     outline: none;
     flex-grow: 1;
+
 }
 
 button:hover {
     background-color: var(--primaryDark);
 }
 
-
-
-
-/* Styling for the number input next to the button */
-.number-input {
-    field-sizing: content;
-    min-width: 5px;
-    padding: 5px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: #f9f9f9;
-}
-.number-input:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px var(--primary);
+/* Grow immediately on click */
+button:active {
+    transform: scale(1.2);
 }
 
-.number-input::-webkit-inner-spin-button,
-.number-input::-webkit-outer-spin-button {
-    -webkit-appearance: none; /* Remove spinner in WebKit browsers */
-    margin: 0;
+
+
+#multiplier {
+    height: 37px;
 }
 
-.number::-webkit-inner-spin-button,
-.number::-webkit-outer-spin-button {
-    -webkit-appearance: none; /* Remove spinner in WebKit browsers */
-    margin: 0;
-}
 
 #multiplierContainerWrapper {
     display: flex;
@@ -230,11 +213,8 @@ button:hover {
 }
 
 
-
-
 .toggle-checkbox {
     display: none;
-    
 }
 
 .toggle-label {
@@ -246,6 +226,11 @@ button:hover {
     border-radius: 4px;
     background-color: var(--secondary);
 
+}
+
+/* Grow immediately on click */
+.toggle-label:active {
+    transform: scale(1.2);
 }
 
 .toggle-checkbox:checked + .toggle-label {
