@@ -106,7 +106,6 @@ function ReplaceBlocksWithText() {
         // Create the text node "[block]"
 
         if(block == null || block.parentNode == null) {
-            console.log("null block!");
         }else{
             const textNode = document.createTextNode(block.AsCode());
 
@@ -204,9 +203,7 @@ const editor = document.getElementById('editor');
 function NewPanBlock(parms)
 {
     // Create the new block
-    const block = document.createElement('div');
-    block.className = 'block';
-    block.setAttribute('contenteditable', 'false'); // Prevent typing inside the block
+    const block = NewEmptyBlock();
     block.blockType = "pan";
 
     // Create the number input
@@ -339,7 +336,6 @@ function UpdatePanBlockData(block, change) {
     
     block.diamaterInput.SetNumber(CalculateDiameterForAmountAndMultiplier(block));
 
-    console.log("amount is " + block.amount);
 }
 function CalculateDiameterForAmountAndMultiplier(block) {
     // Calculate the radius using the area (amount) provided
@@ -379,9 +375,7 @@ function CalculatePanAmountBeforeMultiplier(block)
 function NewTempBlock(parms)
 {
     // Create the new block
-    const block = document.createElement('div');
-    block.className = 'block';
-    block.setAttribute('contenteditable', 'false'); // Prevent typing inside the block
+    const block = NewEmptyBlock();
     block.blockType = "temp";
 
     // Create the number input
@@ -408,12 +402,10 @@ function NewTempBlock(parms)
     UpdateTempBlockData(block, 'number');
 
     numberInput.addEventListener('value-set', (event) => {
-        console.log("number changed");
         UpdateTempBlockData(event.target.parentElement, 'number');
     });    
     unitSelect.inputField.addEventListener('value-set', (event) => {
-        console.log("unit changed!");
-        console.log("value of input field is" + unitSelect.inputField.value);
+
         UpdateTempBlockData(event.target.parentElement.parentElement, 'unit');
     });
 
@@ -428,7 +420,6 @@ function UpdateTempBlockData(block, change) {
     // Find the parent block element
 
     if (change === 'unit') {
-        //console.log(block.amount);
         if(maintain)
         {
             block.number.SetNumber(TemperatureConvert("ºC", block.unit.value, block.amount));
@@ -443,7 +434,6 @@ function UpdateTempBlockData(block, change) {
         block.amount = TemperatureConvert(block.unit.value, "ºC", block.number.exactValue);
     }
 
-    console.log("amount is " + block.amount);
 
 }
 
@@ -452,9 +442,7 @@ function UpdateTempBlockData(block, change) {
 function NewIngredientBlock(parms)
 {
     // Create the new block
-    const block = document.createElement('div');
-    block.className = 'block';
-    block.setAttribute('contenteditable', 'false'); // Prevent typing inside the block
+    const block = NewEmptyBlock();
     block.blockType = "ingredient";
 
     // Create the number input
@@ -490,17 +478,14 @@ function NewIngredientBlock(parms)
 
     
     numberInput.addEventListener('value-set', (event) => {
-        console.log("number changed");
         UpdateIngredientBlockData(event.target.parentElement, 'number');
     });    
     unitSelect.inputField.addEventListener('value-set', (event) => {
-        console.log("unit changed!");
-        console.log("value of input field is" + unitSelect.inputField.value);
+
         UpdateIngredientBlockData(event.target.parentElement.parentElement, 'unit');
     });
     materialSelect.inputField.addEventListener('value-set', (event) => {
-        console.log("!value of input field is" + materialSelect.inputField.value);
-        console.log("mterial changed!");
+
         UpdateIngredientBlockData(event.target.parentElement.parentElement, 'material');
     });
     unitSelect.inputField.addEventListener('options-update', (event) => {
@@ -518,7 +503,6 @@ function UpdateIngredientBlockData(block, change) {
     // Find the parent block element
 
     if (change === 'unit') {
-        //console.log(block.amount);
         block.unitLastValue = block.unit.value;
         if(maintain)
         {
@@ -564,11 +548,8 @@ function UpdateIngredientBlockData(block, change) {
         const thisUnitType = ingredientUnits.find(u => u.name === block.unitLastValue).type;
         const unitAutoComplete = block.unit.parentElement;
 
-        console.log("last unit value = " + block.unitLastValue);
 
         const thisMaterial = materials.find(u => u.name === block.material.value);
-
-        //console.log("this material = " + thisMaterial.name);
 
         unitAutoComplete.suggestionsList = ingredientUnits
         .filter(
@@ -577,7 +558,6 @@ function UpdateIngredientBlockData(block, change) {
         ).map(x=> x.name);
     }
 
-    console.log("amount is " + block.amount);
 
 }
 function CalculateIngredientBlockAmount(block)
@@ -590,6 +570,21 @@ function CalculateIngredientBlockNumber(block)
 }
 
 //MISC SHARED USAGE-----------------------------------------
+function getCursorElement() {
+    const selection = window.getSelection();
+    if (selection.rangeCount > 0) {
+        const range = selection.getRangeAt(0);
+        let node = range.commonAncestorContainer;
+
+        // If the node is a text node, get its parent element
+        if (node.nodeType === Node.TEXT_NODE) {
+            node = node.parentNode;
+        }
+
+        return node;
+    }
+    return null;
+}
 
 function NumberInputField(fractionDisplay)
 {
@@ -738,10 +733,22 @@ function StringToNumber(str) {
 }
 
 
+function NewEmptyBlock()
+{
+    const block = document.createElement('div');
+    block.className = 'block';
+    block.setAttribute('contenteditable', 'false'); // Prevent typing inside the block
+    block.style.fontSize = 'initial';
+    block.style.fontFamily = 'initial';
+    block.style.fontWeight = 'initial';
+    block.style.color = 'initial';
+    return block;
+}
 
 function InsertBlock(newBlock) {
     const selection = window.getSelection();
     let range;
+
 
     if (!selection.rangeCount) {
         // No selection range available
@@ -750,13 +757,16 @@ function InsertBlock(newBlock) {
         range.collapse(false); // Move to the end of the content
     } else {
         range = selection.getRangeAt(0);
-        if (!editor.contains(range.startContainer)) {
+        if (!editor.contains(range.startContainer) || (range.startContainer.nodeType != Node.TEXT_NODE)) {
             // Cursor not inside the editor, move range to the end of the editor
+
             range = document.createRange();
             range.selectNodeContents(editor);
             range.collapse(false); // Move to the end of the content
         }
     }
+
+
 
     // Replace text selection with the new block
     range.deleteContents();
@@ -769,7 +779,6 @@ function InsertBlock(newBlock) {
     selection.addRange(range); 
 
     allBlocks.push(newBlock);
-    console.log(allBlocks.length);
 }
 
 
@@ -811,39 +820,46 @@ function createAutocompleteField(placeholderText, suggestionsList, forceDefault)
         }
     };
 
+
     inputField.addEventListener('focus', function(){
         inputField.select();
         handleInputSuggestions.call(inputField);
     })
 
-    // Add the same JavaScript logic to handle suggestions
     inputField.addEventListener('input', handleInputSuggestions);
 
-    inputField.addEventListener('blur', function() {
-        setTimeout(() => {
-            suggestionsContainer.style.display = 'none';
-            if(autocomplete.forceDefault && !autocomplete.suggestionsList.includes(inputField.value))
-            {
-                if(autocomplete.nearestOption != null && autocomplete.suggestionsList.includes(autocomplete.nearestOption))
-                {
-                    inputField.value = autocomplete.nearestOption;
-                }
-                else
-                {
-                    inputField.value = autocomplete.suggestionsList[0];
-                }
-            }
-            autocomplete.nearestOption = inputField.value;
-            inputField.dispatchEvent(new CustomEvent('value-set', event));
+    autocomplete.setAttribute('tabindex', '-1'); //element can technically be be focused but not using the tab key
+    autocomplete.addEventListener('focusout', function() { //element or one of it's children lost focus
+        if(!autocomplete.contains(event.relatedTarget)) //the element that stole the focus isnt part of the autocomplete
+        {
+            autocomplete.Close();
+        }
 
-        }, 100);  // Delay to allow click event to register
     });
 
+    autocomplete.Close = () =>
+    {
+        suggestionsContainer.style.display = 'none';
+        if(autocomplete.forceDefault && !autocomplete.suggestionsList.includes(inputField.value))
+        {  
+            if(autocomplete.nearestOption != null && autocomplete.suggestionsList.includes(autocomplete.nearestOption))
+            {
+                inputField.value = autocomplete.nearestOption;
+            }
+            else
+            {
+                inputField.value = autocomplete.suggestionsList[0];
+            }
+        }
+        autocomplete.nearestOption = inputField.value;
+        inputField.dispatchEvent(new CustomEvent('value-set', event));
 
-    
-    console.log("fart " + autocomplete.inputField.value);
+    }
+
     return autocomplete;
 }
+
+
 function handleInputSuggestions() {
 
     this.dispatchEvent(new CustomEvent('options-update', event));
@@ -852,7 +868,6 @@ function handleInputSuggestions() {
     const parent = inputField.parentElement;
     const suggestionsContainer = parent.suggestionsContainer;
     const suggestionsList = parent.suggestionsList;
-    console.log(suggestionsList[0]);
     const autocomplete = parent;
 
     function categorizeSuggestion(suggestion) {
@@ -878,7 +893,6 @@ function handleInputSuggestions() {
         suggestionDiv.textContent = suggestion;
         suggestionDiv.addEventListener('click', function() {
             inputField.value = suggestion;
-            suggestionsContainer.innerHTML = '';
             suggestionsContainer.style.display = 'none';
         });
         suggestionsContainer.appendChild(suggestionDiv);
@@ -934,7 +948,6 @@ function TemperatureConvert(fromUnit, toUnit, number) {
 
 function ToGrams(unitName, amount, materialName)
 {
-    console.log("to grams called");
     const unit = ingredientUnits.find(u => u.name === unitName);
     const fromType = unit.type;
     return BasicUnitToBasicUnitOfType(fromType, "weight", ToBasicUnitOfSameType(unitName, amount), materialName);
@@ -961,16 +974,12 @@ function ToComplexUnitOfSameType(unitName, amount)
 
 function BasicUnitToBasicUnitOfType(fromType, toType, amount, materialName)
 {  
-   // console.log("conversoin!");
     if(fromType === toType)
     {
-       // console.log("nope");
         return amount;
     }
-    //console.log(materialName);
 
     const material = materials.find(u => u.name === materialName);
-    console.log("conversion tinme");
 
     //if the material doesnt exist or doesnt have the ratio for a unit, use 1
     let fromTypeRatio = 1;
@@ -988,7 +997,6 @@ function BasicUnitToBasicUnitOfType(fromType, toType, amount, materialName)
     }
 
     const result = (amount / fromTypeRatio) * toTypeRatio;
-    console.log(result);
     return result
 }
 
