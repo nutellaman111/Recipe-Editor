@@ -41,25 +41,18 @@ h1 {
 
 .header-controls {
 
-    min-width: 60%;
+    min-width: 40%;
     max-width: 600px;
-    display: flex;
-    align-items: center;
     justify-content: space-between;
-    margin-bottom: 20px;
     position: fixed;
     top: 15px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    align-items: center;
-    padding: 10px 20px;
+    padding: 10px;
     background-color: var(--background);
     border-radius: 25px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 1000; /* Ensure it stays above other content */
-    overflow-x: auto;
-    overflow-y: hidden;
 }
 
 #editor {
@@ -165,18 +158,14 @@ h1 {
   
   
 
-/* Styling for the button */
 button {
     display: block;
-    font-size: 16px;
     cursor: pointer;
     border: none;
     border-radius: 4px;
     background-color: var(--primary);
     color: white;
     outline: none;
-    flex-grow: 1;
-
 }
 
 button:hover {
@@ -212,6 +201,7 @@ button:active {
 
 .toggle-checkbox {
     display: none;
+    
 }
 
 .toggle-label {
@@ -222,7 +212,6 @@ button:active {
     cursor: pointer;
     border-radius: 4px;
     background-color: var(--secondary);
-
 }
 
 /* Grow immediately on click */
@@ -251,10 +240,12 @@ button:active {
     position: absolute;
     top: 0;
     left: 0;
+
 }
 
 .unlock-icon {
     display: none;
+    
 }
 
 .lock-icon {
@@ -263,6 +254,7 @@ button:active {
 
 .toggle-checkbox:checked + .toggle-label .lock-icon {
     display: block;
+    
 }
 
 .toggle-checkbox:not(:checked) + .toggle-label .unlock-icon {
@@ -274,7 +266,6 @@ button:active {
 }
   
   .tooltip .tooltiptext {
-    visibility: hidden;
     background-color: var(--text);
     color: var(--background);
     text-align: center;
@@ -286,6 +277,7 @@ button:active {
     white-space: nowrap;
     left: 50%;
     transform: translateX(-50%);
+    display: none;
   }
   
   .tooltip .tooltiptext::after {
@@ -300,6 +292,6 @@ button:active {
   }
   
   .tooltip:hover .tooltiptext {
-    visibility: visible;
+    display: block;
   }
 
