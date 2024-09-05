@@ -1,5 +1,5 @@
 :root {
-    --text: #080707;
+    --text: #000000;
     --background: #f9f8f6;
     --primary: #ffa442;
     --primaryDark: #e98b27;
@@ -12,25 +12,34 @@ body {
     margin: 0;
     padding: 0;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center;    /* Center elements horizontally */
     height: 100vh;
 }
 
 .container {
-    top: 100px;
-    left: 50%;
-    transform: translateX(-50%);
     width: 80%;
     max-width: 800px;
     background-color: var(--background);
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    position: absolute;
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
+
+}
+
+.info {
+    width: 80%;
+    max-width: 800px;
+    padding: 20px;
+    border-radius: 8px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
 
 }
 
@@ -41,8 +50,11 @@ h1 {
 
 .header-controls {
 
-    min-width: 40%;
-    max-width: 600px;
+    width: 90%;           /* Make the item take up full width of the container */
+    max-width: 600px;      /* Constrain the item’s width to a maximum of 600px */
+    min-width: 0;          /* Ensure it can shrink below its content size */
+    box-sizing: border-box; /* Include padding and border in the element's total width */
+
     justify-content: space-between;
     position: fixed;
     top: 15px;
@@ -53,11 +65,14 @@ h1 {
     background-color: var(--background);
     border-radius: 25px;
     z-index: 1000; /* Ensure it stays above other content */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.315);
+    flex-wrap: wrap; /* Allows items to wrap to the next line if needed */
+
+
 }
 
 #editor {
     width: 100%;
-
     font-size: 16px;
     padding: 10px;
     border: 1px solid #ddd;
@@ -66,6 +81,12 @@ h1 {
     background-color: var(--background);
     white-space: pre-wrap; /* Preserve whitespace for proper block separation */
 }
+
+#editor:empty::before {
+    content: attr(data-placeholder);
+    color: #aaa;
+  }
+
 
 /* Styling for the block */
 .block {
@@ -134,7 +155,7 @@ h1 {
     left: 0;
     border: 1px solid #ccc;
     background-color: var(--background);
-    z-index: 1000;
+    z-index: 10;
     display: none;
     box-sizing: border-box;
     border-radius: 0 0 4px 4px;
@@ -295,3 +316,4 @@ button:active {
     display: block;
   }
 
+  
