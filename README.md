@@ -1,3 +1,1 @@
-wip wap
-
-[https://nutellaman111.github.io/website/](https://nutellaman111.github.io/Recipe-Editor/)
+try it out: https://nutellaman111.github.io/Recipe-Editor/
