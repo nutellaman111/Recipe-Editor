@@ -6,17 +6,16 @@ const ingredientUnits = [ //ratio = how many times bigger it is than the 'basic 
     { name: 'milliliters', type: 'volume', ratio: 1 }, //basic unit of type volume
     { name: 'x', type: 'countable', ratio: 1 }, //basic unit of type countable (things u can count like 1 egg)
     { name: 'cups', type: 'volume', ratio: 236.588 },
-    { name: 'teaspoons', type: 'volume', ratio: 0.202884 },
-    { name: 'tablespoons', type: 'volume', ratio: 0.067628 },
+    { name: 'us teaspoons', type: 'volume', ratio: 4.92892 },
+    { name: 'tablespoons', type: 'volume', ratio: 14.7868 },
     { name: 'ounces', type: 'weight', ratio: 28.3495 },
     { name: 'pints', type: 'volume', ratio: 473.176 },
-    { name: 'fluid ounces', type: 'volume', ratio: 29.5735 }, // US fluid ounce
+    { name: 'fluid ounces', type: 'volume', ratio: 29.5735 },
     { name: 'pounds', type: 'weight', ratio: 453.592 },
     { name: 'kilograms', type: 'weight', ratio: 1000 },
     { name: 'liters', type: 'volume', ratio: 1000 },
-    { name: 'quarts', type: 'volume', ratio: 946.353 }, // US quart
-    { name: 'gallons', type: 'volume', ratio: 3785.41 }, // US gallon
-    { name: 'milligrams', type: 'weight', ratio: 0.001 },
+    { name: 'quarts', type: 'volume', ratio: 946.353 }, 
+    { name: 'gallons', type: 'volume', ratio: 3785.41 }, 
 ];
 const lengthUnits = [
     { name: "centimeter", ratio: 1 },
@@ -24,17 +23,15 @@ const lengthUnits = [
     { name: "millimeter", ratio: 0.1 },
 ];
 
-const materials = [ //ratios = how many of basic units of type X is in 1 ml. for weight its equal to density (gr/ml)
-    //(a material can have volume undefined if it cant be converted to ml)
-    { name: 'water', ratios: {volume: 1, weight: 1} },
-    { name: 'large eggs', ratios: { volume: 1, weight: 1.075, countable: 1/45} }, //an egg is 45 ml
-    { name: 'all purpose flour', ratios: { volume: 1, weight: 0.53 } },
-    { name: 'milk', ratios: { volume: 1, weight: 1.04 } },
-    { name: 'brown sugar', ratios: { volume: 1, weight: 0.93 } },
-    { name: 'vanilla extract', ratios: { volume: 1, weight: 0.88 } },
-    { name: 'baking powder', ratios: { volume: 1, weight: 0.9 } },
-    { name: 'butter', ratios: { volume: 1, weight: 0.91 } }
-];
+let materials;
+//load the materials async
+fetch('data/materials.json')
+  .then(response => response.json())   // Step 2: Convert response to JSON
+  .then(data => {                      // Step 3: Use the JSON data
+    materials = data;            // Save the data to the `materials` variable
+  })
+  .catch(error => console.error('Error loading materials:', error));  // Error handling
+
 // Array to store block data
 let allBlocks = [];
 
@@ -47,6 +44,7 @@ const toggleSwitch = document.getElementById('lockToggle');
 
 toggleSwitch.addEventListener('change', function() {
     maintain = this.checked;
+    editorContainer.setAttribute('data-ratioslocked', maintain);
 });
 
 //multiplier field
@@ -199,6 +197,8 @@ function BlockFromPars(parms)
 
 //EDITOR-------------------------------------------------------------
 const editor = document.getElementById('editor');
+const editorContainer = document.getElementById('editorcontainer');
+
 
 
 //PAN BLOCK----------------------------------------------------------
@@ -596,10 +596,12 @@ function NumberInputField(fractionDisplay)
     numberInput.className = 'number';
     numberInput.fractionDisplay = fractionDisplay == null? true : fractionDisplay;
 
-    numberInput.addEventListener('blur', function() { //MAKE THIS 'CHANGE' TO FIX BUGS
-        // Use SetNumber to handle the input value
+    numberInput.addEventListener('blur', function() { 
         numberInput.SetNumber(numberInput.value);
-        numberInput.dispatchEvent(new CustomEvent('value-set', event));
+        if(numberInput.previousExactValue != numberInput.exactValue)
+        {
+            numberInput.dispatchEvent(new CustomEvent('value-set', event)); //call the value-set event only if the value changed
+        }
     });
 
     numberInput.addEventListener('focus', function(){
@@ -611,6 +613,7 @@ function NumberInputField(fractionDisplay)
     })
 
     numberInput.SetNumber = function(newValue) {
+        this.previousExactValue = this.exactValue;
         if (typeof newValue === 'number') {
             // If newValue is a number, set exactValue directly
             this.exactValue = newValue;
@@ -855,7 +858,6 @@ function createAutocompleteField(placeholderText, suggestionsList, forceDefault)
         }
         autocomplete.nearestOption = inputField.value;
         inputField.dispatchEvent(new CustomEvent('value-set', event));
-
     }
 
     return autocomplete;
@@ -885,9 +887,10 @@ function handleInputSuggestions() {
 
     const inputValue = inputField.value.toLowerCase();
 
-    const orderedSuggestions = suggestionsList.sort((a, b) => {
+    const orderedSuggestions = [...suggestionsList].sort((a, b) => {
         return categorizeSuggestion(a) - categorizeSuggestion(b);
     });
+    
 
     suggestionsContainer.innerHTML = '';
     orderedSuggestions.forEach(suggestion => {
@@ -895,11 +898,12 @@ function handleInputSuggestions() {
         suggestionDiv.textContent = suggestion;
         suggestionDiv.addEventListener('click', function() {
             inputField.value = suggestion;
-            suggestionsContainer.style.display = 'none';
+            autocomplete.Close();
         });
         suggestionsContainer.appendChild(suggestionDiv);
     });
 
+    suggestionsContainer.scrollTop = 0;
     suggestionsContainer.style.display = orderedSuggestions.length ? 'block' : 'none';
     autocomplete.nearestOption = orderedSuggestions.length ? orderedSuggestions[0] : '';
 }

@@ -1,0 +1,1927 @@
+[
+  {
+    "name": "ground allspice",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.42
+    }
+  },
+  {
+    "name": "ground almonds",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.36
+    }
+  },
+  {
+    "name": "sliced almonds",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.39
+    }
+  },
+  {
+    "name": "whole almonds",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.66
+    }
+  },
+  {
+    "name": "anchovies",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 1.02
+    }
+  },
+  {
+    "name": "whole anise seed",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.45
+    }
+  },
+  {
+    "name": "dried apples",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.38
+    }
+  },
+  {
+    "name": "sliced apples",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.76
+    }
+  },
+  {
+    "name": "dried apricots",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.64
+    }
+  },
+  {
+    "name": "arrowroot",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.95
+    }
+  },
+  {
+    "name": "arrowroot flour",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.54
+    }
+  },
+  {
+    "name": "bacon fat",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.76
+    }
+  },
+  {
+    "name": "baking powder",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.76
+    }
+  },
+  {
+    "name": "baking soda",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.87
+    }
+  },
+  {
+    "name": "bamboo shoots",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 1.14
+    }
+  },
+  {
+    "name": "mashed bananas",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.97
+    }
+  },
+  {
+    "name": "sliced bananas",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.76
+    }
+  },
+  {
+    "name": "barley flour",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.63
+    }
+  },
+  {
+    "name": "uncooked barley",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.78
+    }
+  },
+  {
+    "name": "dried basil",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.11
+    }
+  },
+  {
+    "name": "dried leaves basil",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.14
+    }
+  },
+  {
+    "name": "crumbled bay leaf",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.12
+    }
+  },
+  {
+    "name": "dried beans",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.85
+    }
+  },
+  {
+    "name": "cooked beef",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.97
+    }
+  },
+  {
+    "name": "raw beef",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.93
+    }
+  },
+  {
+    "name": "biscuit mix (Bisquick)",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.55
+    }
+  },
+  {
+    "name": "raw blackberries",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.61
+    }
+  },
+  {
+    "name": "blue corn meal",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.51
+    }
+  },
+  {
+    "name": "raw blueberries",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.63
+    }
+  },
+  {
+    "name": "unsifted bran",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.23
+    }
+  },
+  {
+    "name": "whole brazil nuts",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.64
+    }
+  },
+  {
+    "name": "fresh bread crumbs",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.25
+    }
+  },
+  {
+    "name": "packaged bread crumbs",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.51
+    }
+  },
+  {
+    "name": "buckwheat groats",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.72
+    }
+  },
+  {
+    "name": "dry bulgur",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.59
+    }
+  },
+  {
+    "name": "butter",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.97
+    }
+  },
+  {
+    "name": "stick butter",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.97
+    }
+  },
+  {
+    "name": "buttermilk",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 1.04
+    }
+  },
+  {
+    "name": "shredded cabbage",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 1.44
+    }
+  },
+  {
+    "name": "fresh cake crumbs",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.38
+    }
+  },
+  {
+    "name": "candied lemon peel",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.57
+    }
+  },
+  {
+    "name": "candied orange peel",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.53
+    }
+  },
+  {
+    "name": "whole caraway seed",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.45
+    }
+  },
+  {
+    "name": "ground cardamom",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.39
+    }
+  },
+  {
+    "name": "carob flour",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.44
+    }
+  },
+  {
+    "name": "chopped raw carrots",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.54
+    }
+  },
+  {
+    "name": "grated raw carrots",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.46
+    }
+  },
+  {
+    "name": "oil roasted cashews",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.47
+    }
+  },
+  {
+    "name": "cauliflower fleurets",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.97
+    }
+  },
+  {
+    "name": "powder cayenne",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.35
+    }
+  },
+  {
+    "name": "celery seed",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.43
+    }
+  },
+  {
+    "name": "Rice Krispies cereal",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.09
+    }
+  },
+  {
+    "name": "grated cheddar cheese",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.51
+    }
+  },
+  {
+    "name": "grated colby cheese",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.47
+    }
+  },
+  {
+    "name": "cottage cheese",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.97
+    }
+  },
+  {
+    "name": "cream cheese",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 1.02
+    }
+  },
+  {
+    "name": "grated parmesan cheese",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.59
+    }
+  },
+  {
+    "name": "grated jack cheese",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.55
+    }
+  },
+  {
+    "name": "dried chervil",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.13
+    }
+  },
+  {
+    "name": "chili powder",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.53
+    }
+  },
+  {
+    "name": "chopped dried chives",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.03
+    }
+  },
+  {
+    "name": "chopped fresh chives",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.21
+    }
+  },
+  {
+    "name": "chocolate chips",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.76
+    }
+  },
+  {
+    "name": "cocoa powder chocolate",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.43
+    }
+  },
+  {
+    "name": "grated chocolate",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.42
+    }
+  },
+  {
+    "name": "melted chocolate",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 1.02
+    }
+  },
+  {
+    "name": "ground cinnamon",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.52
+    }
+  },
+  {
+    "name": "ground cloves",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.41
+    }
+  },
+  {
+    "name": "whole cloves",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.38
+    }
+  },
+  {
+    "name": "cocoa powder",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.43
+    }
+  },
+  {
+    "name": "shredded coconut",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.32
+    }
+  },
+  {
+    "name": "ground coffee",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.38
+    }
+  },
+  {
+    "name": "instant coffee",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.23
+    }
+  },
+  {
+    "name": "coriander seed",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.33
+    }
+  },
+  {
+    "name": "raw sweet yellow corn",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.61
+    }
+  },
+  {
+    "name": "cornmeal",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.72
+    }
+  },
+  {
+    "name": "cornstarch (cornflour)",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.59
+    }
+  },
+  {
+    "name": "cracker crumbs",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.25
+    }
+  },
+  {
+    "name": "chopped raw cranberries",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.46
+    }
+  },
+  {
+    "name": "whole raw cranberries",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.42
+    }
+  },
+  {
+    "name": "cream",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 1.01
+    }
+  },
+  {
+    "name": "cream of tartar",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.64
+    }
+  },
+  {
+    "name": "cream of wheat",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.76
+    }
+  },
+  {
+    "name": "melted crisco",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.89
+    }
+  },
+  {
+    "name": "solid crisco",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.93
+    }
+  },
+  {
+    "name": "whole cumin seed",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.4
+    }
+  },
+  {
+    "name": "currants",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.64
+    }
+  },
+  {
+    "name": "curry powder",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.43
+    }
+  },
+  {
+    "name": "chopped dates",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.64
+    }
+  },
+  {
+    "name": "dill seed",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.44
+    }
+  },
+  {
+    "name": "egg",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.97
+    }
+  },
+  {
+    "name": "egg noodles",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.38
+    }
+  },
+  {
+    "name": "egg white",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.93
+    }
+  },
+  {
+    "name": "egg yolk",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 1.14
+    }
+  },
+  {
+    "name": "beaten egg",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.97
+    }
+  },
+  {
+    "name": "raw elderberries",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.61
+    }
+  },
+  {
+    "name": "evaporated milk",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.93
+    }
+  },
+  {
+    "name": "farina",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.76
+    }
+  },
+  {
+    "name": "duck fat",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.87
+    }
+  },
+  {
+    "name": "whole fennel seed",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.39
+    }
+  },
+  {
+    "name": "fenugreek seed",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.74
+    }
+  },
+  {
+    "name": "dried figs",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.66
+    }
+  },
+  {
+    "name": "flour",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.6
+    }
+  },
+  {
+    "name": "plain wheat flour",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.6
+    }
+  },
+  {
+    "name": "plain wheat - scooped flour",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.65
+    }
+  },
+  {
+    "name": "plain wheat - spooned flour",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.55
+    }
+  },
+  {
+    "name": "potato flour",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.72
+    }
+  },
+  {
+    "name": "rice flour",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.64
+    }
+  },
+  {
+    "name": "semolina flour",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.74
+    }
+  },
+  {
+    "name": "whole wheat flour",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.55
+    }
+  },
+  {
+    "name": "wood ear fungus",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.42
+    }
+  },
+  {
+    "name": "garlic powder",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.68
+    }
+  },
+  {
+    "name": "minced garlic",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.64
+    }
+  },
+  {
+    "name": "gelatin",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.93
+    }
+  },
+  {
+    "name": "raw ginger root",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.4
+    }
+  },
+  {
+    "name": "slices raw ginger root",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.41
+    }
+  },
+  {
+    "name": "crystal ginger",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 1.02
+    }
+  },
+  {
+    "name": "fresh ginger",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.97
+    }
+  },
+  {
+    "name": "ground ginger",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.43
+    }
+  },
+  {
+    "name": "raw gooseberries",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.63
+    }
+  },
+  {
+    "name": "graham cracker crumbs",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.38
+    }
+  },
+  {
+    "name": "grape nuts",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.51
+    }
+  },
+  {
+    "name": "gumdrops",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.68
+    }
+  },
+  {
+    "name": "gummi bears",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.64
+    }
+  },
+  {
+    "name": "whole hazelnuts",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.72
+    }
+  },
+  {
+    "name": "honey",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 1.44
+    }
+  },
+  {
+    "name": "kasha",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.72
+    }
+  },
+  {
+    "name": "ketchup",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 1.16
+    }
+  },
+  {
+    "name": "lard",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.93
+    }
+  },
+  {
+    "name": "lemon juice",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 1.03
+    }
+  },
+  {
+    "name": "grated lemon rind",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.64
+    }
+  },
+  {
+    "name": "lentils",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.85
+    }
+  },
+  {
+    "name": "uncooked macaroni",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.49
+    }
+  },
+  {
+    "name": "ground mace",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.35
+    }
+  },
+  {
+    "name": "margarine",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.93
+    }
+  },
+  {
+    "name": "dried marjoram",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.11
+    }
+  },
+  {
+    "name": "small marshmallows",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.21
+    }
+  },
+  {
+    "name": "mashed potatoes",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.89
+    }
+  },
+  {
+    "name": "mayonnaise",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.93
+    }
+  },
+  {
+    "name": "milk",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 1.0
+    }
+  },
+  {
+    "name": "evaporated milk",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.93
+    }
+  },
+  {
+    "name": "powdered milk",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.49
+    }
+  },
+  {
+    "name": "millet flour",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.5
+    }
+  },
+  {
+    "name": "molasses",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 1.45
+    }
+  },
+  {
+    "name": "raw mulberries",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.59
+    }
+  },
+  {
+    "name": "Chinese black mushrooms",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.21
+    }
+  },
+  {
+    "name": "chopped mushrooms",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.32
+    }
+  },
+  {
+    "name": "sliced mushrooms",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.28
+    }
+  },
+  {
+    "name": "whole mushrooms",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.25
+    }
+  },
+  {
+    "name": "mustard seed",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.64
+    }
+  },
+  {
+    "name": "ground mustard seed",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.42
+    }
+  },
+  {
+    "name": "dry mustard",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.49
+    }
+  },
+  {
+    "name": "prepared mustard",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 1.06
+    }
+  },
+  {
+    "name": "ground nutmeg",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.47
+    }
+  },
+  {
+    "name": "uncooked oatmeal",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.34
+    }
+  },
+  {
+    "name": "rolled oats",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.34
+    }
+  },
+  {
+    "name": "steel-cut oats",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.68
+    }
+  },
+  {
+    "name": "vegetable oil",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.89
+    }
+  },
+  {
+    "name": "olive oil",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.81
+    }
+  },
+  {
+    "name": "chopped olives",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.76
+    }
+  },
+  {
+    "name": "chopped onion",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.64
+    }
+  },
+  {
+    "name": "minced onion",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.85
+    }
+  },
+  {
+    "name": "sliced onion",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.55
+    }
+  },
+  {
+    "name": "grated orange rind",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.38
+    }
+  },
+  {
+    "name": "ground dried oregano",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.36
+    }
+  },
+  {
+    "name": "leaves dried oregano",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.2
+    }
+  },
+  {
+    "name": "crushed oreo cookies",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.51
+    }
+  },
+  {
+    "name": "paprika",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.49
+    }
+  },
+  {
+    "name": "paprika powder",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.45
+    }
+  },
+  {
+    "name": "dried parsley",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.11
+    }
+  },
+  {
+    "name": "fresh parsley",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.17
+    }
+  },
+  {
+    "name": "egg noodles pasta",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.38
+    }
+  },
+  {
+    "name": "macaroni pasta",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.49
+    }
+  },
+  {
+    "name": "peanut butter",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.76
+    }
+  },
+  {
+    "name": "peanuts",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.62
+    }
+  },
+  {
+    "name": "chopped peanuts",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.68
+    }
+  },
+  {
+    "name": "oil roasted peanuts",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.64
+    }
+  },
+  {
+    "name": "raw green peas",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.61
+    }
+  },
+  {
+    "name": "uncooked peas",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.64
+    }
+  },
+  {
+    "name": "pecans",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.46
+    }
+  },
+  {
+    "name": "chopped pecans",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.51
+    }
+  },
+  {
+    "name": "ground pecans",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.42
+    }
+  },
+  {
+    "name": "shelled pecans",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.51
+    }
+  },
+  {
+    "name": "ground black pepper",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.46
+    }
+  },
+  {
+    "name": "ground white pepper",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.47
+    }
+  },
+  {
+    "name": "black peppercorns",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.57
+    }
+  },
+  {
+    "name": "white peppercorns",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.64
+    }
+  },
+  {
+    "name": "chopped chili peppers",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.72
+    }
+  },
+  {
+    "name": "pignolias (pine nuts)",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.53
+    }
+  },
+  {
+    "name": "raw pistachio nuts",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.52
+    }
+  },
+  {
+    "name": "poppy seeds",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.58
+    }
+  },
+  {
+    "name": "potato flour",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.68
+    }
+  },
+  {
+    "name": "cooked diced potatoes",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.85
+    }
+  },
+  {
+    "name": "mashed potatoes",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.89
+    }
+  },
+  {
+    "name": "sliced raw potatoes",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.76
+    }
+  },
+  {
+    "name": "pumpkin pie spice",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.37
+    }
+  },
+  {
+    "name": "cooked pumpkin",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.76
+    }
+  },
+  {
+    "name": "uncooked quinoa",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.72
+    }
+  },
+  {
+    "name": "not packed seedless raisins",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.61
+    }
+  },
+  {
+    "name": "packed seedless raisins",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.7
+    }
+  },
+  {
+    "name": "raw raspberries",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.52
+    }
+  },
+  {
+    "name": "brown rice flour",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.67
+    }
+  },
+  {
+    "name": "white rice flour",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.67
+    }
+  },
+  {
+    "name": "arborio uncooked rice",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.77
+    }
+  },
+  {
+    "name": "uncooked long-grain brown rice",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.78
+    }
+  },
+  {
+    "name": "uncooked medium-grain brown rice",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.8
+    }
+  },
+  {
+    "name": "steamed rice",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.68
+    }
+  },
+  {
+    "name": "uncooked rice",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.89
+    }
+  },
+  {
+    "name": "uncooked Basmati rice",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.83
+    }
+  },
+  {
+    "name": "uncooked Jasmin rice",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.78
+    }
+  },
+  {
+    "name": "uncooked glutinous white rice",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.78
+    }
+  },
+  {
+    "name": "uncooked short-grain white rice",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.85
+    }
+  },
+  {
+    "name": "uncooked wild rice",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.61
+    }
+  },
+  {
+    "name": "dried rosemary",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.22
+    }
+  },
+  {
+    "name": "fresh rosemary",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.11
+    }
+  },
+  {
+    "name": "rum (40%)",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.94
+    }
+  },
+  {
+    "name": "dark rye flour",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.54
+    }
+  },
+  {
+    "name": "light rye flour",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.43
+    }
+  },
+  {
+    "name": "medium rye flour",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.43
+    }
+  },
+  {
+    "name": "saffron",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.14
+    }
+  },
+  {
+    "name": "ground sage",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.13
+    }
+  },
+  {
+    "name": "salt",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 1.02
+    }
+  },
+  {
+    "name": "table salt",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 1.2
+    }
+  },
+  {
+    "name": "scallions (green onions)",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.21
+    }
+  },
+  {
+    "name": "sesame seeds",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.68
+    }
+  },
+  {
+    "name": "shallots",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 1.02
+    }
+  },
+  {
+    "name": "sour cream",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.51
+    }
+  },
+  {
+    "name": "soy sauce",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 1.07
+    }
+  },
+  {
+    "name": "soymilk",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 1.03
+    }
+  },
+  {
+    "name": "uncooked spaghetti",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.51
+    }
+  },
+  {
+    "name": "dried spearmint",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.11
+    }
+  },
+  {
+    "name": "cooked spinach",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.76
+    }
+  },
+  {
+    "name": "split peas",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.85
+    }
+  },
+  {
+    "name": "halves raw strawberries",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.64
+    }
+  },
+  {
+    "name": "pureed raw strawberries",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.98
+    }
+  },
+  {
+    "name": "sugar",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.87
+    }
+  },
+  {
+    "name": "brown sugar",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.85
+    }
+  },
+  {
+    "name": "castor sugar",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.81
+    }
+  },
+  {
+    "name": "confectioner's sugar",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.55
+    }
+  },
+  {
+    "name": "granulated sugar",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.87
+    }
+  },
+  {
+    "name": "powdered sugar",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.55
+    }
+  },
+  {
+    "name": "sultanas",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.64
+    }
+  },
+  {
+    "name": "shelled sunflower seeds",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.56
+    }
+  },
+  {
+    "name": "cooked sweet potatoes",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 1.02
+    }
+  },
+  {
+    "name": "raw sweet potatoes",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.76
+    }
+  },
+  {
+    "name": "dark corn syrup",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 1.39
+    }
+  },
+  {
+    "name": "light corn syrup",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 1.44
+    }
+  },
+  {
+    "name": "maple syrups",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 1.33
+    }
+  },
+  {
+    "name": "tabasco",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.96
+    }
+  },
+  {
+    "name": "dried leaves tarragon",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.12
+    }
+  },
+  {
+    "name": "tea",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.32
+    }
+  },
+  {
+    "name": "leaves dried thyme",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.18
+    }
+  },
+  {
+    "name": "fresh thyme",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.16
+    }
+  },
+  {
+    "name": "tiger lily blossoms",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.17
+    }
+  },
+  {
+    "name": "tomato paste",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 1.1
+    }
+  },
+  {
+    "name": "tomato puree",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 1.06
+    }
+  },
+  {
+    "name": "chopped tomatoes",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.68
+    }
+  },
+  {
+    "name": "canned crushed tomatoes",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 1.08
+    }
+  },
+  {
+    "name": "canned tuna",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.85
+    }
+  },
+  {
+    "name": "ground turmeric",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.59
+    }
+  },
+  {
+    "name": "vanilla extract",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.88
+    }
+  },
+  {
+    "name": "crushed vanilla wafers",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.68
+    }
+  },
+  {
+    "name": "balsamic vinegar",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 1.08
+    }
+  },
+  {
+    "name": "cider vinegar",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 1.01
+    }
+  },
+  {
+    "name": "40% vodka",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.94
+    }
+  },
+  {
+    "name": "chopped walnuts",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.49
+    }
+  },
+  {
+    "name": "ground walnuts",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.36
+    }
+  },
+  {
+    "name": "shelled walnuts",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.51
+    }
+  },
+  {
+    "name": "water",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 1.0
+    }
+  },
+  {
+    "name": "whole-grain wheat flour",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.51
+    }
+  },
+  {
+    "name": "wheat germ",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.53
+    }
+  },
+  {
+    "name": "wild rice",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.61
+    }
+  },
+  {
+    "name": "red wine",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.99
+    }
+  },
+  {
+    "name": "white wine",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 0.99
+    }
+  },
+  {
+    "name": "active dry yeast",
+    "ratios": {
+      "volume": 1.0,
+      "weight": 1.23
+    }
+  }
+]
