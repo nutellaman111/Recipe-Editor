@@ -757,14 +757,19 @@ function InsertBlock(newBlock) {
 
     if (!selection.rangeCount) {
         // No selection range available
+        console.log("no seleciton");
         range = document.createRange();
         range.selectNodeContents(editor); // Select the entire content of the editor
         range.collapse(false); // Move to the end of the content
     } else {
         range = selection.getRangeAt(0);
-        if (!editor.contains(range.startContainer) || (range.startContainer.nodeType != Node.TEXT_NODE)) {
+        const startContainer = range.startContainer;
+        
+        let validPlacement = editor.contains(startContainer) && !hasAncestorWithClass(startContainer, "block");
+        // Check if the start container is inside the editor and is either a text node or an element node
+        if (!validPlacement) {
+          
             // Cursor not inside the editor, move range to the end of the editor
-
             range = document.createRange();
             range.selectNodeContents(editor);
             range.collapse(false); // Move to the end of the content
@@ -784,6 +789,16 @@ function InsertBlock(newBlock) {
     selection.addRange(range); 
 
     allBlocks.push(newBlock);
+}
+
+function hasAncestorWithClass(node, className) {
+    while (node) {
+        if (node.nodeType === Node.ELEMENT_NODE && node.classList.contains(className)) {
+            return true;
+        }
+        node = node.parentNode;
+    }
+    return false;
 }
 
 
